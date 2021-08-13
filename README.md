@@ -1,4 +1,4 @@
-# Pong-and-StreetCrossing-Game
+# Pong-Game for Web
 
 ## Hello World!
 

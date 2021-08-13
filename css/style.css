@@ -1,0 +1,54 @@
+body{
+    font-family: 'MonteCarlo', cursive;
+    color: lightcoral;
+    background: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+#caixaCabecalho{
+    width: 1000px;
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+    min-height: 50px;
+}
+
+#nomeJogo{
+    font-size: 5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+#caixaJogo{
+    width: 1000px;
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+#button1{
+    border-radius: 5px;
+}
+
+#caixaDados{
+    text-align: center;
+}
+
+#record{
+    font-size: 2em;
+    font-weight: bold;
+}
+
+#caixaRodape{
+    text-align: center;
+    min-height: 30px;
+    margin-top: auto;
+}
+
+#creditos{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5em;
+    font-weight: bold;
+}
