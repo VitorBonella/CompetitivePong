@@ -3,8 +3,14 @@ const screenContext = screen.getContext("2d");
 
 let largura = screen.width;
 let altura = screen.height;
-let larguraMenu = 400;
-let alturaMenu = 400;
+let larguraMenu = 300;
+let alturaMenu = 360;
+
+function LimpaTela(){
+  screen.removeEventListener('mousemove',handleMouse);
+  screen.removeEventListener('click',handleClick);
+  screenContext.clearRect(0, 0, screen.width, screen.height);
+}
 
 function atualizarPlanoDeFundo(url) {
   screen.style.background = url;
@@ -48,14 +54,16 @@ function desenharItensMenu() {
   
 }
 
-
 function desenhaMenu(){
+  
+  screen.addEventListener('mousemove',handleMouse);
+  screen.addEventListener('click',handleClick);
   atualizarPlanoDeFundo("url('images/menu.jpg')");
-  desenharBaseMenu();
+  //desenharBaseMenu();
   desenharItensMenu();
 }
 
-function selecionarItem(indice) {
+function destacaItem(indice) {
   desenharItensMenu();
   let x = parseInt((largura / 2) - (larguraMenu / 2));
   let y = parseInt((altura / 2) - (alturaMenu / 2));
@@ -90,28 +98,60 @@ function selecionarItem(indice) {
   
 }
 
-desenhaMenu();
+function selecionaItem(indice) {
+  
+  switch (indice) {
+      case 0:
+          
+          break;
+      case 1:
+          
+          break;
+      case 2:
+          
+          break;
+      case 3:
+          ShowCredits();
+          break;
+  }
+  
+}
 
-function handleClick(e){
+function getIndiceButton(posX,posY){
+    var x = parseInt((largura / 2) - (larguraMenu / 2));
+    var y = parseInt((altura / 2) - (alturaMenu / 2));
+    var indice = -1;
+    if (posX > x && posX < x + larguraMenu) {
+      if (posY > y && posY < y + alturaMenu) {
+          indice = parseInt((posY - y) / 100);
+      }
+    }
+    return indice;
+}
+
+function handleMouse(e){
 
     var posX = e.offsetX;
     var posY = e.offsetY;
     //alert(posX)
-    var x = parseInt((largura / 2) - (larguraMenu / 2));
-    var y = parseInt((altura / 2) - (alturaMenu / 2));
     
-    var indice = -1;
+    indice = getIndiceButton(posX,posY);
     
-    if (posX > x && posX < x + larguraMenu) {
-        if (posY > y && posY < y + alturaMenu) {
-            indice = parseInt((posY - y) / 100);
-        }
-    }
-    
-    console.log(indice)
-    selecionarItem(indice);
-    
+    destacaItem(indice);
     
 }
 
-screen.addEventListener('mousemove',handleClick , false);
+function handleClick(e){
+
+  var posX = e.offsetX;
+  var posY = e.offsetY;
+  //alert(posX)
+  
+  indice = getIndiceButton(posX,posY);
+  
+  selecionaItem(indice);
+  
+}
+
+desenhaMenu();
+

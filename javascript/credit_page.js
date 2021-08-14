@@ -1,8 +1,18 @@
-
-function creditos(){
-    const screen = document.getElementById("screen");
-    const screenContext = screen.getContext("2d");
-
-    screen.style.background = "url('https://www.correio24horas.com.br//fileadmin/_processed_/6/8/csm_tabela2_fd72ccbb23.jpg')";
-    alert("Teste")
+function backMenu(){
+    //LimpaTela()
+    screen.removeEventListener('click', backMenu);
+    desenhaMenu()
+    
 }
+
+function ShowCredits(){
+    //const screen = document.getElementById("screen");
+    //const screenContext = screen.getContext("2d");
+    //screenContext.clearRect(0, 0, canvas.width, canvas.height);
+    //alert("OI");
+    LimpaTela();
+    atualizarPlanoDeFundo("#FFFF");
+
+    screen.addEventListener('click', backMenu , false);
+}
+
