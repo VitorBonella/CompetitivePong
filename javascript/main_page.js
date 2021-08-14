@@ -1,92 +1,117 @@
 const screen = document.getElementById("screen");
 const screenContext = screen.getContext("2d");
 
-console.log("availwidth", screen.availWidth)
-console.log(screen.pixelDepth)
+let largura = screen.width;
+let altura = screen.height;
+let larguraMenu = 400;
+let alturaMenu = 400;
 
-screen.style.background = "url('images/menu.jpg')";
-
-const button1 = document.getElementById('button1');
-const button2 = document.getElementById('button2');
-const button3 = document.getElementById('button3');
-const button4 = document.getElementById('button4');
-
-b1width = screen.width/2 - 75
-b1height = screen.height/2 - 75
-
-b2width = screen.width/2 - 75
-b2height = screen.height/2 - 25
-
-b3width = screen.width/2 - 75 
-b3height = screen.height/2 + 25
-
-b4width = screen.width/2 - 75 
-b4height = screen.height/2 + 75
-
-document.addEventListener('focus', redraw, true);
-document.addEventListener('blur', redraw, true);
-screen.addEventListener('click', handleClick, false);
-redraw();
-
-function redraw() {
-    screenContext.clearRect(0, 0, screen.width, screen.height);
-    drawButton(button1, b1width, b1height);
-    drawButton(button2, b2width, b2height);
-    drawButton(button3, b3width, b3height);
-    drawButton(button4, b4width, b4height);
+function atualizarPlanoDeFundo(url) {
+  screen.style.background = url;
 }
 
-function handleClick(e) {
-  // Calculate click coordinates
-  const x = e.offsetX 
-  const y = e.offsetY
-
-  // Focus button1, if appropriate
-  drawButton(button1,b1width,b1height);
-  if (screenContext.isPointInPath(x, y)) {
-    button1.focus();
-    //alert("VAI A MERDA")
-  }
-
-  // Focus button2, if appropriate
-  drawButton(button2, b2width, b2height);
-  if (screenContext.isPointInPath(x, y)) {
-    button2.focus();
-  }
-
-  // Focus button3, if appropriate
-  drawButton(button3, b3width, b3height);
-  if (screenContext.isPointInPath(x, y)) {
-    button3.focus();
-  }
-
-  // Focus button4, if appropriate
-  drawButton(button4, b4width, b4height);
-  if (screenContext.isPointInPath(x, y)) {
-    button4.focus();
-  }
+function desenharBaseMenu() {
+  screenContext.fillStyle = "rgba(255,255,255,0.7)";
+  let x = parseInt((largura / 2) - (larguraMenu / 2));
+  let y = parseInt((altura / 2) - (alturaMenu / 2));
+  screenContext.fillRect(x, y, larguraMenu, alturaMenu);
 }
 
-function drawButton(el, x, y) {
-  const active = document.activeElement === el;
-  const width = 200;
-  const height = 40;
+function desenharItensMenu() {
+  let x = parseInt((largura / 2) - (larguraMenu / 2));
+  let y = parseInt((altura / 2) - (alturaMenu / 2));
+  
 
-  // Button background
-  screenContext.fillStyle = active ? 'pink' : 'lightgray';
-  screenContext.fillRect(x, y, width, height);
+  img1 = new Image();
+  img1.src = "images/AmistosoButton.png";
+  img1.onload = function () {
+    screenContext.drawImage(img1, x, y);
+  };
 
-  // Button text
-  screenContext.font = '15px sans-serif';
-  screenContext.textAlign = 'center';
-  screenContext.textBaseline = 'middle';
-  screenContext.fillStyle = active ? 'blue' : 'black';
-  screenContext.fillText(el.textContent, x + width / 2, y + height / 2);
+  img2= new Image();
+  img2.src = "images/MultiplayerButton.png";
+  img2.onload = function () {
+    screenContext.drawImage(img2, x, y+100);
+  };
 
-  // Define clickable area
-  screenContext.beginPath();
-  screenContext.rect(x, y, width, height);
+  img3 = new Image();
+  img3.src = "images/CompeticaoButton.png";
+  img3.onload = function () {
+    screenContext.drawImage(img3, x, y+200);
+  };
 
-  // Draw focus ring, if appropriate
-  //screenContext.drawFocusIfNeeded(el);
+  img4 = new Image();
+  img4.src = "images/CreditosButton.png";
+  img4.onload = function () {
+    screenContext.drawImage(img4, x, y+300);
+  };
+  
 }
+
+
+function desenhaMenu(){
+  atualizarPlanoDeFundo("url('images/menu.jpg')");
+  desenharBaseMenu();
+  desenharItensMenu();
+}
+
+function selecionarItem(indice) {
+  desenharItensMenu();
+  let x = parseInt((largura / 2) - (larguraMenu / 2));
+  let y = parseInt((altura / 2) - (alturaMenu / 2));
+  
+  img = new Image();
+  switch (indice) {
+      case 0:
+          img.src = "images/AmistosoButton2.png";
+          img.onload = function () {
+            screenContext.drawImage(img, x, y);
+          };
+          break;
+      case 1:
+          img.src = "images/MultiplayerButton2.png";
+          img.onload = function () {
+            screenContext.drawImage(img, x, y+100);
+          };
+          break;
+      case 2:
+          img.src = "images/CompeticaoButton2.png";
+          img.onload = function () {
+            screenContext.drawImage(img, x, y+200);
+          };
+          break;
+      case 3:
+          img.src = "images/CreditosButton2.png";
+          img.onload = function () {
+            screenContext.drawImage(img, x, y+300);
+          };
+          break;
+  }
+  
+}
+
+desenhaMenu();
+
+function handleClick(e){
+
+    var posX = e.offsetX;
+    var posY = e.offsetY;
+    //alert(posX)
+    var x = parseInt((largura / 2) - (larguraMenu / 2));
+    var y = parseInt((altura / 2) - (alturaMenu / 2));
+    
+    var indice = -1;
+    
+    if (posX > x && posX < x + larguraMenu) {
+        if (posY > y && posY < y + alturaMenu) {
+            indice = parseInt((posY - y) / 100);
+        }
+    }
+    
+    console.log(indice)
+    selecionarItem(indice);
+    
+    
+}
+
+screen.addEventListener('mousemove',handleClick , false);
