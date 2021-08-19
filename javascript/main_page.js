@@ -102,10 +102,10 @@ function selecionaItem(indice) {
   
   switch (indice) {
       case 0:
-          
+          inicializaJogo();
           break;
       case 1:
-          
+          inicializaJogo();
           break;
       case 2:
           

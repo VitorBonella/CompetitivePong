@@ -1,13 +1,12 @@
 body{
-    font-family: 'Courier New', Courier, monospace, cursive;
-    color: #000000;
-    background: rgb(255, 235, 235);
+    font-family: 'Courier New', Courier, monospace;
+    color: whitesmoke;
+    background: black;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
 }
-
 
 #caixaCabecalho{
     width: 1000px;
