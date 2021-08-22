@@ -106,6 +106,8 @@ function iniciaJogo(){
     
 }
 
+let multiplayer = false;
+
 function atualiza(dt){
     
     ball.posicao.x += ball.velocidade.x*dt;
@@ -129,14 +131,90 @@ function atualiza(dt){
     houveColisao(jogador1,ball);
     houveColisao(jogador2,ball);
 
-    jogador2.posicao.y = ball.posicao.y;
-
+    if(multiplayer){
+        jogador2.posicao.y = ball.posicao.y;
+    }
+    
     desenhaElementos();
 
 }
+movelen = 40
+function ativar1Player(){
+    document.onkeydown = function(e) {
+        e.preventDefault(); //to prevent scroll of screen
+        switch (e.keyCode) {
+            //player 1 keys
+            case 38:
+                if(jogador1.posicao.y > 20){
+                    jogador1.posicao.y -= movelen;
+                }
+                break;
+            case 40:
+                if(jogador1.posicao.y < altura - 20){
+                    jogador1.posicao.y += movelen;
+                }
+                break;
+            case 87:
+                if(jogador1.posicao.y > 20){
+                    jogador1.posicao.y -= movelen;
+                }
+                break;
+            case 83:
+                if(jogador1.posicao.y < altura - 20){
+                    jogador1.posicao.y += movelen;
+                }
+                break;
+        }
+    
+    };
+}
+
+function ativar2Player(){
+    
+    document.onkeydown = document.onkeyup = function(e) {
+        e.preventDefault(); 
+        switch (e.keyCode) {
+            //player 1 keys
+            case 38:
+                if(jogador2.posicao.y > 20){
+                    jogador2.posicao.y -= movelen;
+                }
+                break;
+            case 40:
+                if(jogador2.posicao.y < altura - 20){
+                    jogador2.posicao.y += movelen;
+                }
+                break;
+            //player 2 keys
+            case 87:
+                if(jogador1.posicao.y > 20){
+                    jogador1.posicao.y -= movelen;
+                }
+                break;
+            case 83:
+                if(jogador1.posicao.y < altura - 20){
+                    jogador1.posicao.y += movelen;
+                }
+                break;
+        }
+    };
+
+ 
+
+}
+
 
 function inicializaJogo(){
     
+    multiplayer = true;
+    ativar1Player();
+    frameCallback();
+
+}
+
+function inicializaJogoMultiplayer(){
+    
+    ativar2Player();
     frameCallback();
 
 }
@@ -146,14 +224,4 @@ screen.addEventListener('click',evento => {
     iniciaJogo();
 });
 
-screen.addEventListener('mousemove',evento => {
-    jogador1.posicao.y = evento.offsetY;
-    /*
-    if(evento.key = 'w'){
-        jogador1.posicao.y += 10;
-    }
-    if(evento.key = 's'){
-        jogador1.posicao.y -= 10;
-    }
-    */
-});
+

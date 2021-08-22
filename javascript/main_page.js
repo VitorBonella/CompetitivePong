@@ -105,7 +105,7 @@ function selecionaItem(indice) {
           inicializaJogo();
           break;
       case 1:
-          inicializaJogo();
+          inicializaJogoMultiplayer();
           break;
       case 2:
           
