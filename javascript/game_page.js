@@ -34,7 +34,7 @@ class Bola extends Retangulo{
         this.velocidade = new Coordenada;
     }
     init(){
-        ball.posicao.x = largura/2;
+        ball.posicao.x = largura/2 + 7;
         ball.posicao.y = altura/2;
 
         ball.velocidade.x = 0;
@@ -46,6 +46,7 @@ class Jogador extends Retangulo{
     constructor(){
         super(20,80);
         this.pontos = 0;
+        this.logo = "#FFF"
     }
 }
 
