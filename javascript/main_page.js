@@ -1,19 +1,12 @@
-const screen = document.getElementById("screen");
-const screenContext = screen.getContext("2d");
+const caixaCabecalho = document.getElementById("caixaCabecalho");
+const caixaPlacar = document.getElementById("caixaPlacar");
 
-let largura = screen.width;
-let altura = screen.height;
 let larguraMenu = 300;
 let alturaMenu = 360;
 
-function LimpaTela(){
-  screen.removeEventListener('mousemove',handleMouse);
-  screen.removeEventListener('click',handleClick);
-  screenContext.clearRect(0, 0, screen.width, screen.height);
-}
-
-function atualizarPlanoDeFundo(url) {
-  screen.style.background = url;
+function mostraPlacar(){
+  caixaCabecalho.style.display = "none";
+  caixaPlacar.style.display = "flex";
 }
 
 function desenharBaseMenu() {
@@ -27,7 +20,6 @@ function desenharItensMenu() {
   let x = parseInt((largura / 2) - (larguraMenu / 2));
   let y = parseInt((altura / 2) - (alturaMenu / 2));
   
-
   img1 = new Image();
   img1.src = "images/AmistosoButton.png";
   img1.onload = function () {
@@ -55,12 +47,12 @@ function desenharItensMenu() {
 }
 
 function desenhaMenu(){
-  
   screen.addEventListener('mousemove',handleMouse);
   screen.addEventListener('click',handleClick);
   atualizarPlanoDeFundo("url('images/menu.jpg')");
   //desenharBaseMenu();
   desenharItensMenu();
+  console.log("MENU DESENHADO");
 }
 
 function destacaItem(indice) {
@@ -103,12 +95,14 @@ function selecionaItem(indice) {
   switch (indice) {
       case 0:
           inicializaJogo();
+          mostraPlacar();
           break;
       case 1:
           inicializaJogoMultiplayer();
+          mostraPlacar();
           break;
       case 2:
-          
+          mostraPlacar();
           break;
       case 3:
           ShowCredits();
@@ -130,22 +124,18 @@ function getIndiceButton(posX,posY){
 }
 
 function handleMouse(e){
-
     var posX = e.offsetX;
     var posY = e.offsetY;
-    //alert(posX)
-    
+
     indice = getIndiceButton(posX,posY);
-    
+
     destacaItem(indice);
-    
 }
 
 function handleClick(e){
 
   var posX = e.offsetX;
   var posY = e.offsetY;
-  //alert(posX)
   
   indice = getIndiceButton(posX,posY);
   
@@ -154,4 +144,3 @@ function handleClick(e){
 }
 
 desenhaMenu();
-

@@ -1,17 +1,26 @@
 body{
     font-family: 'Courier New', Courier, monospace;
     color: whitesmoke;
-    background: black;
+    background-color: lightcoral;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
 }
 
-#caixaCabecalho{
-    width: 1000px;
+#caixaCabecalho, #caixaPlacar, #caixaJogo{
     margin-left: 50%;
     transform: translate(-50%, 0%);
+}
+
+#caixaCabecalho, #caixaPlacar{
+    width: 350px;
+    height: 70px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+#caixaCabecalho{
     text-align: center;
     min-height: 50px;
 }
@@ -22,19 +31,38 @@ body{
     margin: 0;
 }
 
+#caixaPlacar{
+    display: none;
+    flex-direction: row;
+    margin-bottom: 30px;
+}
+
+#logoTime1, #numGolsTime1, #iconeX, #numGolsTime2, #logoTime2{
+    width: 20%;
+}
+
+#logoTime1{
+    background-image: url("../images/placar/flalogo.png");
+}
+
+#numGolsTime1{
+    background-image: url("../images/placar/0.png");
+}
+
+#iconeX{
+    background-image: url("../images/placar/x.png");
+}
+
+#logoTime2{
+    background-image: url("../images/placar/flulogo.png");
+}
+
+#numGolsTime2{
+    background-image: url("../images/placar/0.png");
+}
+
 #caixaJogo{
     width: 1000px;
-    margin-left: 50%;
-    transform: translate(-50%, 0%);
-}
-
-#caixaDados{
-    text-align: center;
-}
-
-#record{
-    font-size: 2em;
-    font-weight: bold;
 }
 
 #caixaRodape{
@@ -45,6 +73,6 @@ body{
 
 #creditos{
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: bold;
 }

@@ -1,9 +1,8 @@
-class Coordenada{
-    constructor(x = 0, y = 0){
-        this.x = x;
-        this.y = y;
-    }
-}
+const logoTime1Placar = document.getElementById("logoTime1");
+const numGolsTime1Placar = document.getElementById("numGolsTime1");
+const logoTime2Placar = document.getElementById("logoTime2");
+const numGolsTime2Placar = document.getElementById("numGolsTime2");
+let gameLoopInterval;
 
 class Retangulo{
     constructor(w,h){
@@ -25,12 +24,13 @@ class Retangulo{
     desenha(cor = "#FFF",pattern = null){
        
         if(pattern != null){
-            img1 = new Image();
-            img1.src = pattern;
+            let imgTime = new Image();
+            imgTime.src = pattern;
             
-            let pat = screenContext.createPattern(img1,"repeat");
+            let pat = screenContext.createPattern(imgTime,"repeat");
             screenContext.fillStyle = pat;
-            screenContext.fillRect(this.posicao.x,this.posicao.y,this.tamanho.x,this.tamanho.y);
+            screenContext.fillRect(this.esquerda,this.cima,this.tamanho.x,this.tamanho.y);
+            screenContext.strokeRect(this.esquerda,this.cima,this.tamanho.x,this.tamanho.y);
         }
         else{
             screenContext.fillStyle = cor;
@@ -42,11 +42,11 @@ class Retangulo{
 
 class Bola extends Retangulo{
     constructor(){
-        super(20,20);
+        super(15,15);
         this.velocidade = new Coordenada;
     }
     init(){
-        ball.posicao.x = largura/2 + 7;
+        ball.posicao.x = largura/2;
         ball.posicao.y = altura/2;
 
         ball.velocidade.x = 0;
@@ -69,25 +69,14 @@ ball.init();
 let jogador1 = new Jogador;
 let jogador2 = new Jogador;
 
-
 jogador1.posicao.x = 40;
 jogador2.posicao.x = largura - 40;
 
 jogador1.posicao.y = altura/2;
 jogador2.posicao.y = altura/2;
 
-let ultimoInstante;
-
-function frameCallback(milisegundos){
-    if(ultimoInstante){
-        atualiza((milisegundos - ultimoInstante) / 1000);
-    }
-    ultimoInstante = milisegundos;
-    requestAnimationFrame(frameCallback);
-}
-
-jogador1.logo = "images/in-game/times/fla.jpg"
-jogador2.logo = "images/in-game/times/flu.jpg"
+jogador1.logo = "images/in-game/times/flamengo.jpg";
+jogador2.logo = "images/in-game/times/fluminense.jpg";
 
 function desenhaElementos(){
     LimpaTela();
@@ -108,39 +97,76 @@ function houveColisao(jogador,bola){
         colidiu = true;
     }
     if(colidiu){
-        bola.velocidade.x = -bola.velocidade.x;
+        bola.velocidade.x = -bola.velocidade.x * 1.10;
+        bola.velocidade.y += bola.velocidade.y * 0.05 ;
     }
     
+}
+
+function atualizaPlacar(jogador){
+    if(jogador.pontos === 1){
+        // jogador.logo = LOGO 1
+    }else if(jogador.pontos === 2){
+        // jogador.logo = LOGO 2
+    }else if(jogador.pontos === 3){
+        // jogador.logo = LOGO 3
+    }else if(jogador.pontos === 4){
+        // jogador.logo = LOGO 4
+    }else if(jogador.pontos === 5){
+        // jogador.logo = LOGO 5
+    }
+}
+
+function terminaJogo(){
+    
+    jogador1.pontos = 0;
+    jogador2.pontos = 0;
+    console.log("GANHOU");
+
+    clearInterval(gameLoopInterval);
+    
+    LimpaTela();
+    desenhaMenu();
 }
 
 function iniciaJogo(){
     let direcao = (Math.random() > .5 ? 1 : -1);
     let diagonal = (Math.random() * 2 - 1)
 
-    ball.velocidade.x = 200 * direcao;
-    ball.velocidade.y = 200 * diagonal;
+    ball.velocidade.x = 5 * direcao;
+    ball.velocidade.y = 5 * diagonal;
     
 }
 
 let multiplayer = false;
 
-function atualiza(dt){
+function atualiza(){
     
-    ball.posicao.x += ball.velocidade.x*dt;
-    ball.posicao.y += ball.velocidade.y*dt;
+    ball.posicao.x += ball.velocidade.x;
+    ball.posicao.y += ball.velocidade.y;
 
     if(ball.direita > largura - 30 || ball.esquerda < 10){
         if(ball.velocidade < 0){
             jogador2.pontos += 1;
-        }
-        else{
+            
+        }else{
             jogador1.pontos += 1;
         }
-        console.log(jogador1,jogador2);
-        ball.init();
+        
+        const maxGols = 1;
+
+        if(jogador1.pontos === maxGols || jogador2.pontos === maxGols){
+            terminaJogo();
+            return;
+        }
+        else{
+            console.log(jogador1,jogador2);
+            ball.init();
+        }
         
     }
-    if(ball.cima > altura - 30 || ball.baixo < 10){
+    
+    if(ball.cima > altura - 5 || ball.baixo < 5){
         ball.velocidade.y = -ball.velocidade.y;
     }
 
@@ -154,6 +180,7 @@ function atualiza(dt){
     desenhaElementos();
 
 }
+
 movelen = 40
 function ativar1Player(){
     document.onkeydown = function(e) {
@@ -230,18 +257,22 @@ function inicializaJogo(){
     clickHandle();
     multiplayer = true;
     ativar1Player();
-    frameCallback();
-
+    gameLoopInterval = setInterval(function() {
+        atualiza()
+      }, 1000/60);
+      
+    
 }
 
 function inicializaJogoMultiplayer(){
     
     clickHandle();
+    multiplayer = true;
     ativar2Player();
-    frameCallback();
+    gameLoopInterval = setInterval(function() {
+        atualiza()
+      }, 1000/60);
+    
 
 }
-
-
-
 

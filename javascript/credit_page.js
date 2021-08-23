@@ -1,7 +1,7 @@
 function backMenu(){
     //LimpaTela()
     screen.removeEventListener('click', backMenu);
-    desenhaMenu()
+    desenhaMenu();
     
 }
 
@@ -11,8 +11,7 @@ function ShowCredits(){
     //screenContext.clearRect(0, 0, canvas.width, canvas.height);
     //alert("OI");
     LimpaTela();
-    atualizarPlanoDeFundo("#FFFF");
+    atualizarPlanoDeFundo("url('https://pbs.twimg.com/profile_images/703730312141008896/zFyv8sxi_400x400.jpg')");
 
     screen.addEventListener('click', backMenu , false);
 }
-
