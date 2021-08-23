@@ -22,9 +22,21 @@ class Retangulo{
     get esquerda(){
         return this.posicao.x - this.tamanho.x /2;
     }
-    desenha(cor = "#FFF"){
-        screenContext.fillStyle = cor
-        screenContext.fillRect(this.esquerda,this.cima,this.tamanho.x,this.tamanho.y);
+    desenha(cor = "#FFF",pattern = null){
+       
+        if(pattern != null){
+            img1 = new Image();
+            img1.src = pattern;
+            
+            let pat = screenContext.createPattern(img1,"repeat");
+            screenContext.fillStyle = pat;
+            screenContext.fillRect(this.posicao.x,this.posicao.y,this.tamanho.x,this.tamanho.y);
+        }
+        else{
+            screenContext.fillStyle = cor;
+            screenContext.fillRect(this.esquerda,this.cima,this.tamanho.x,this.tamanho.y);
+        }
+        
     }
 }
 
@@ -74,13 +86,16 @@ function frameCallback(milisegundos){
     requestAnimationFrame(frameCallback);
 }
 
+jogador1.logo = "images/in-game/times/fla.jpg"
+jogador2.logo = "images/in-game/times/flu.jpg"
+
 function desenhaElementos(){
     LimpaTela();
     atualizarPlanoDeFundo("url('images/in-game/campo.jpg')");
 
     ball.desenha();
-    jogador1.desenha();
-    jogador2.desenha();
+    jogador1.desenha(cor = "#FFF",pattern = jogador1.logo);
+    jogador2.desenha(cor = "#FFF",pattern = jogador2.logo);
 }
 
 function houveColisao(jogador,bola){
@@ -203,10 +218,16 @@ function ativar2Player(){
  
 
 }
-
+function clickHandle(){
+    screen.addEventListener('click',evento => {
+        iniciaJogo();
+    });
+    
+}
 
 function inicializaJogo(){
     
+    clickHandle();
     multiplayer = true;
     ativar1Player();
     frameCallback();
@@ -215,14 +236,12 @@ function inicializaJogo(){
 
 function inicializaJogoMultiplayer(){
     
+    clickHandle();
     ativar2Player();
     frameCallback();
 
 }
 
 
-screen.addEventListener('click',evento => {
-    iniciaJogo();
-});
 
 
