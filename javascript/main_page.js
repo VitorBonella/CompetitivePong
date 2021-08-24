@@ -9,6 +9,11 @@ function mostraPlacar(){
   caixaPlacar.style.display = "flex";
 }
 
+function mostraPong(){
+  caixaCabecalho.style.display = "initial";
+  caixaPlacar.style.display = "none";
+}
+
 function desenharBaseMenu() {
   screenContext.fillStyle = "rgba(255,255,255,0.7)";
   let x = parseInt((largura / 2) - (larguraMenu / 2));

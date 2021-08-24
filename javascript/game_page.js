@@ -4,16 +4,25 @@ const logoTime2Placar = document.getElementById("logoTime2");
 const numGolsTime2Placar = document.getElementById("numGolsTime2");
 let gameLoopInterval;
 
-let listatimes = [  fla = 'images/in-game/times/flamengo.jpg',  flu = 'images/in-game/times/fluminense.jpg',
-                    arg = 'images/in-game/times/argentinos.jpg',atl = 'images/in-game/times/atletico.jpg', 
-                    boca = 'images/in-game/times/boca.jpg',     cer = 'images/in-game/times/cerro.jpg', 
-                    dyj = 'images/in-game/times/defensa.jpg',   int = 'images/in-game/times/inter.jpg', 
-                    oli = 'images/in-game/times/olimpia.jpg',   pal = 'images/in-game/times/palmeiras.jpg', 
-                    rac = 'images/in-game/times/racing.jpg',    riv = 'images/in-game/times/river.jpg', 
-                    sao = 'images/in-game/times/saopaulo.jpg',  uni = 'images/in-game/times/universidade.jpg', 
-                    bar = 'images/in-game/times/barcelona.jpg', vel = 'images/in-game/times/velez.jpg', 
-                ];
 
+let listatimes = {  fla : 'images/in-game/times/flamengo.jpg',  flu : 'images/in-game/times/fluminense.jpg',
+                    arg : 'images/in-game/times/argentinos.jpg',atl : 'images/in-game/times/atletico.jpg', 
+                    boca : 'images/in-game/times/boca.jpg',     cer : 'images/in-game/times/cerro.jpg', 
+                    dyj : 'images/in-game/times/defensa.jpg',   int : 'images/in-game/times/inter.jpg', 
+                    oli : 'images/in-game/times/olimpia.jpg',   pal : 'images/in-game/times/palmeiras.jpg', 
+                    rac : 'images/in-game/times/racing.jpg',    riv : 'images/in-game/times/river.jpg', 
+                    sao : 'images/in-game/times/saopaulo.jpg',  uni : 'images/in-game/times/universidade.jpg', 
+                    bar : 'images/in-game/times/barcelona.jpg', vel : 'images/in-game/times/velez.jpg', 
+};
+
+let numerosPlacar = {
+    0 : "url('images/placar/0.png')",
+    1 : "url('images/placar/1.png')",
+    2 : "url('images/placar/2.png')",
+    3 : "url('images/placar/3.png')",
+    4 : "url('images/placar/4.png')",
+    5 : "url('images/placar/5.png')",
+}
 
 class Retangulo{
     constructor(w,h){
@@ -86,8 +95,8 @@ jogador2.posicao.x = largura - 40;
 jogador1.posicao.y = altura/2;
 jogador2.posicao.y = altura/2;
 
-jogador1.logo = "images/in-game/times/flamengo.jpg";
-jogador2.logo = "images/in-game/times/fluminense.jpg";
+jogador1.logo = listatimes["rac"];
+jogador2.logo = listatimes["oli"];
 
 function desenhaElementos(){
     LimpaTela();
@@ -128,16 +137,29 @@ function atualizaPlacar(jogador){
     }
 }
 
-function terminaJogo(){
-    
-    ball.init();
+function reseta(){
+
+    ball.init(); //reseta bola
+
+    //reseta jogadores
     jogador1.pontos = 0;
     jogador2.pontos = 0;
+
+    //reseta placar
+    numGolsTime1Placar.style.backgroundImage = numerosPlacar[0];
+    numGolsTime2Placar.style.backgroundImage = numerosPlacar[0];
+}
+
+function terminaJogo(){
+    
+    
+    reseta();
     console.log("GANHOU");
 
     clearInterval(gameLoopInterval);
     
     LimpaTela();
+    mostraPong();
     desenhaMenu();
 }
 
@@ -165,13 +187,17 @@ function atualiza(){
             jogador1.pontos += 1;
         }
         
-        const maxGols = 1;
+        numGolsTime1Placar.style.backgroundImage = numerosPlacar[jogador2.pontos];
+        numGolsTime2Placar.style.backgroundImage = numerosPlacar[jogador1.pontos];
+
+        const maxGols = 2;
 
         if(jogador1.pontos === maxGols || jogador2.pontos === maxGols){
             terminaJogo();
             return;
         }
         else{
+            ;
             console.log(jogador1,jogador2);
             ball.init();
         }
@@ -188,6 +214,7 @@ function atualiza(){
     if(!multiplayer){
         jogador2.posicao.y = ball.posicao.y;
     }
+
     
     desenhaElementos();
 
