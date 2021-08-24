@@ -4,6 +4,17 @@ const logoTime2Placar = document.getElementById("logoTime2");
 const numGolsTime2Placar = document.getElementById("numGolsTime2");
 let gameLoopInterval;
 
+let listatimes = [  fla = 'images/in-game/times/flamengo.jpg',  flu = 'images/in-game/times/fluminense.jpg',
+                    arg = 'images/in-game/times/argentinos.jpg',atl = 'images/in-game/times/atletico.jpg', 
+                    boca = 'images/in-game/times/boca.jpg',     cer = 'images/in-game/times/cerro.jpg', 
+                    dyj = 'images/in-game/times/defensa.jpg',   int = 'images/in-game/times/inter.jpg', 
+                    oli = 'images/in-game/times/olimpia.jpg',   pal = 'images/in-game/times/palmeiras.jpg', 
+                    rac = 'images/in-game/times/racing.jpg',    riv = 'images/in-game/times/river.jpg', 
+                    sao = 'images/in-game/times/saopaulo.jpg',  uni = 'images/in-game/times/universidade.jpg', 
+                    bar = 'images/in-game/times/barcelona.jpg', vel = 'images/in-game/times/velez.jpg', 
+                ];
+
+
 class Retangulo{
     constructor(w,h){
         this.posicao = new Coordenada;
