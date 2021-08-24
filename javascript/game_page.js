@@ -130,6 +130,7 @@ function atualizaPlacar(jogador){
 
 function terminaJogo(){
     
+    ball.init();
     jogador1.pontos = 0;
     jogador2.pontos = 0;
     console.log("GANHOU");
@@ -184,7 +185,7 @@ function atualiza(){
     houveColisao(jogador1,ball);
     houveColisao(jogador2,ball);
 
-    if(multiplayer){
+    if(!multiplayer){
         jogador2.posicao.y = ball.posicao.y;
     }
     
@@ -266,7 +267,7 @@ function clickHandle(){
 function inicializaJogo(){
     
     clickHandle();
-    multiplayer = true;
+    multiplayer = false;
     ativar1Player();
     gameLoopInterval = setInterval(function() {
         atualiza()
