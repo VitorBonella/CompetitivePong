@@ -99,12 +99,14 @@ function selecionaItem(indice) {
   
   switch (indice) {
       case 0:
-          inicializaJogo();
-          mostraPlacar();
+          desenhaTelaSelecao(0);
+          // inicializaJogo();
+          // mostraPlacar();
           break;
       case 1:
-          inicializaJogoMultiplayer();
-          mostraPlacar();
+          desenhaTelaSelecao(1);
+          // inicializaJogoMultiplayer();
+          // mostraPlacar();
           break;
       case 2:
           mostraPlacar();
