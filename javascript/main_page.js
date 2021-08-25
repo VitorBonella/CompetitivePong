@@ -15,7 +15,7 @@ function mostraPong(){
 }
 
 function desenharBaseMenu() {
-  screenContext.fillStyle = "rgba(255,255,255,0.7)";
+  screenContext.fillStyle = "rgba(255,255,255,0.4)";
   let x = parseInt((largura / 2) - (larguraMenu / 2));
   let y = parseInt((altura / 2) - (alturaMenu / 2));
   screenContext.fillRect(x, y, larguraMenu, alturaMenu);
@@ -55,7 +55,7 @@ function desenhaMenu(){
   screen.addEventListener('mousemove',handleMouse);
   screen.addEventListener('click',handleClick);
   atualizarPlanoDeFundo("url('images/menu.jpg')");
-  //desenharBaseMenu();
+  desenharBaseMenu();
   desenharItensMenu();
   console.log("MENU DESENHADO");
 }
@@ -104,15 +104,15 @@ function selecionaItem(indice) {
           // mostraPlacar();
           break;
       case 1:
-          desenhaTelaSelecao(1);
-          // inicializaJogoMultiplayer();
-          // mostraPlacar();
+          //desenhaTelaSelecao(1);
+          inicializaJogoMultiplayer();
+          mostraPlacar();
           break;
       case 2:
           mostraPlacar();
           break;
       case 3:
-          ShowCredits();
+          // ShowCredits();
           break;
   }
   

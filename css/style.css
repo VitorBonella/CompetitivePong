@@ -1,6 +1,7 @@
 body{
     font-family: 'Courier New', Courier, monospace;
     color: whitesmoke;
+    background: url("../images/bg/bggray.jpg");
     background-color: rgb(0, 255, 200);
     display: flex;
     flex-direction: column;
@@ -8,21 +9,20 @@ body{
     margin: 0;
 }
 
-#caixaCabecalho, #caixaPlacar, #caixaJogo{
+#caixaCabecalho, #caixaPlacar, #caixaEscolhaSingleplayer, #caixaEscolhaMultiplayer, #caixaJogo{
     margin-left: 50%;
     transform: translate(-50%, 0%);
 }
 
-#caixaCabecalho, #caixaPlacar{
+#caixaCabecalho, #caixaPlacar, #caixaEscolhaSingleplayer, #caixaEscolhaMultiplayer{
     width: 350px;
     height: 70px;
     margin-bottom: 30px;
     margin-top: 20px;
 }
 
-#caixaCabecalho{
+#caixaCabecalho, #caixaEscolhaSingleplayer, #caixaEscolhaMultiplayer{
     text-align: center;
-    min-height: 50px;
 }
 
 #nomeJogo{
@@ -34,7 +34,6 @@ body{
 #caixaPlacar{
     display: none;
     flex-direction: row;
-    margin-bottom: 30px;
 }
 
 #logoTime1, #numGolsTime1, #iconeX, #numGolsTime2, #logoTime2{
@@ -46,11 +45,11 @@ body{
 }
 
 #numGolsTime1{
-    background-image: url("../images/placar/0.png");
+    background-image: url("../images/placar/0l.png");
 }
 
 #iconeX{
-    background-image: url("../images/placar/x.png");
+    background-image: url("../images/placar/X.png");
 }
 
 #logoTime2{
@@ -58,7 +57,18 @@ body{
 }
 
 #numGolsTime2{
-    background-image: url("../images/placar/0.png");
+    background-image: url("../images/placar/0r.png");
+}
+
+#caixaEscolhaSingleplayer, #caixaEscolhaMultiplayer{
+    display: none;
+    flex-direction: row;
+}
+
+#escolha{
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 0;
 }
 
 #caixaJogo{
