@@ -2,17 +2,29 @@ const caixaEscolhaSingleplayer = document.getElementById("caixaEscolhaSingleplay
 const caixaEscolhaMultiplayer = document.getElementById("caixaEscolhaMultiplayer");
 
 class Logo{
-    constructor(imgPlacar, imgRoupa, coordenada, indice){
-        
+    constructor(urlImgPlacar, urlImgRoupa, coordenada, indice){
+        let imgPlacar = new Image();
+        imgPlacar.src = urlImgPlacar;
+
+        let imgRoupa = new Image();
+        imgRoupa.src = urlImgRoupa;
 
         this.imgPlacar = imgPlacar;
         this.imgRoupa = imgRoupa;
         this.coordenada = coordenada;
         this.indice = indice;
+
+        this.imgPlacar.onload = function(){
+            screenContext.drawImage(imgPlacar, coordenada.x, coordenada.y);
+        };
     }
 }
 
 let logos = [];
+let primeiroTimeEscolhido = null;
+let qtdTimesEscolhidos = 0;
+let escolheuSingleplayer = false;
+let escolheuMultiplayer = false;
 
 function mostraEscolhaSingleplayer(){
     caixaCabecalho.style.display = "none";
@@ -36,165 +48,69 @@ function desenhaLogos(){
     const varX = 243.3;
     const varY = 126.6;
 
-    desenhaFundoLogo(x - 5, y - 5)
-    img1Placar = new Image();
-    img1Placar.src = "images/placar/argenlogo.png";
-    img1Roupa = new Image();
-    img1Roupa.src = "images/in-game/times/argentinos.jpg";
-    img1Placar.onload = function () {
-        screenContext.drawImage(img1Placar, x, y);
-    };
-    logos.push(new Logo(img1Placar, img1Roupa, new Coordenada(x, y), 0));
+    logo1 = new Logo("images/placar/argenlogo.png", "images/in-game/times/argentinos.jpg", new Coordenada(x, y), 0);
+    desenhaFundoLogo(logo1.coordenada.x - 5, logo1.coordenada.y - 5);
+    logos.push(logo1);
     
-    desenhaFundoLogo(x+(varX*1) - 5, y - 5)
-    img2Placar = new Image();
-    img2Placar.src = "images/placar/barcelogo.png";
-    img2Roupa = new Image();
-    img2Roupa.src = "images/in-game/times/barcelona.jpg";
-    img2Placar.onload = function () {
-        screenContext.drawImage(img2Placar, x+(varX*1), y);
-    };
-    logos.push(new Logo(img2Placar, img2Roupa, new Coordenada(x+(varX*1), y), 1));
+    logo2 = new Logo("images/placar/barcelogo.png", "images/in-game/times/barcelona.jpg", new Coordenada(x+(varX*1), y), 1);
+    desenhaFundoLogo(logo2.coordenada.x - 5, logo2.coordenada.y - 5);
+    logos.push(logo2);
 
-    desenhaFundoLogo(x+(varX*2) - 5, y - 5)
-    img3Placar = new Image();
-    img3Placar.src = "images/placar/bocalogo.png";
-    img3Roupa = new Image();
-    img3Roupa.src = "images/in-game/times/boca.jpg";
-    img3Placar.onload = function () {
-        screenContext.drawImage(img3Placar, x+(varX*2), y);
-    };
-    logos.push(new Logo(img3Placar, img3Roupa, new Coordenada(x+(varX*2), y), 2));
+    logo3 = new Logo("images/placar/bocalogo.png", "images/in-game/times/boca.jpg", new Coordenada(x+(varX*2), y), 2);
+    desenhaFundoLogo(logo3.coordenada.x - 5, logo3.coordenada.y - 5);
+    logos.push(logo3);
 
-    desenhaFundoLogo(x+(varX*3) - 5, y - 5)
-    img4Placar = new Image();
-    img4Placar.src = "images/placar/cerrologo.png";
-    img4Roupa = new Image();
-    img4Roupa.src = "images/in-game/times/cerro.jpg";
-    img4Placar.onload = function () {
-        screenContext.drawImage(img4Placar, x+(varX*3), y);
-    };
-    logos.push(new Logo(img4Placar, img4Roupa, new Coordenada(x+(varX*3), y), 3));
+    logo4 = new Logo("images/placar/cerrologo.png", "images/in-game/times/cerro.jpg", new Coordenada(x+(varX*3), y), 3);
+    desenhaFundoLogo(logo4.coordenada.x - 5, logo4.coordenada.y - 5);
+    logos.push(logo4);
 
-    desenhaFundoLogo(x - 5, y + varY*1 - 5)
-    img5Placar = new Image();
-    img5Placar.src = "images/placar/dyjlogo.png";
-    img5Roupa = new Image();
-    img5Roupa.src = "images/in-game/times/defensa.jpg";
-    img5Placar.onload = function () {
-        screenContext.drawImage(img5Placar, x, y + varY*1);
-    };
-    logos.push(new Logo(img5Placar, img5Roupa, new Coordenada(x, y + varY*1), 4));
+    logo5 = new Logo("images/placar/dyjlogo.png", "images/in-game/times/defensa.jpg", new Coordenada(x, y + varY*1), 4);
+    desenhaFundoLogo(logo5.coordenada.x - 5, logo5.coordenada.y - 5);
+    logos.push(logo5);
 
-    desenhaFundoLogo(x+(varX*1) - 5, y+varY*1 - 5)
-    img6Placar = new Image();
-    img6Placar.src = "images/placar/flalogo.png";
-    img6Roupa = new Image();
-    img6Roupa.src = "images/in-game/times/flamengo.jpg";
-    img6Placar.onload = function () {
-        screenContext.drawImage(img6Placar, x+(varX*1), y + varY*1);
-    };
-    logos.push(new Logo(img6Placar, img6Roupa, new Coordenada(x+(varX*1), y + varY*1), 5));
+    logo6 = new Logo("images/placar/flalogo.png", "images/in-game/times/flamengo.jpg", new Coordenada(x+(varX*1), y + varY*1), 5);
+    desenhaFundoLogo(logo6.coordenada.x - 5, logo6.coordenada.y - 5);
+    logos.push(logo6);
 
-    desenhaFundoLogo(x+(varX*2) - 5, y+varY*1 - 5)
-    img7Placar = new Image();
-    img7Placar.src = "images/placar/flulogo.png";
-    img7Roupa = new Image();
-    img7Roupa.src = "images/in-game/times/fluminense.jpg";
-    img7Placar.onload = function () {
-        screenContext.drawImage(img7Placar, x+(varX*2), y + varY*1);
-    };
-    logos.push(new Logo(img7Placar, img7Roupa, new Coordenada(x+(varX*2), y + varY*1), 6));
+    logo7 = new Logo("images/placar/flulogo.png", "images/in-game/times/fluminense.jpg", new Coordenada(x+(varX*2), y + varY*1), 6);
+    desenhaFundoLogo(logo7.coordenada.x - 5, logo7.coordenada.y - 5);
+    logos.push(logo7);
 
-    desenhaFundoLogo(x+(varX*3) - 5, y+varY*1 - 5)
-    img8Placar = new Image();
-    img8Placar.src = "images/placar/galologo.png";
-    img8Roupa = new Image();
-    img8Roupa.src = "images/in-game/times/atletico.jpg";
-    img8Placar.onload = function () {
-        screenContext.drawImage(img8Placar, x+(varX*3), y + varY*1);
-    };
-    logos.push(new Logo(img8Placar, img8Roupa, new Coordenada(x+(varX*3), y + varY*1), 7));
+    logo8 = new Logo("images/placar/galologo.png", "images/in-game/times/atletico.jpg", new Coordenada(x+(varX*3), y + varY*1), 7);
+    desenhaFundoLogo(logo8.coordenada.x - 5, logo8.coordenada.y - 5);
+    logos.push(logo8);
 
-    desenhaFundoLogo(x+(varX*0) - 5, y+varY*2 - 5)
-    img9Placar = new Image();
-    img9Placar.src = "images/placar/interlogo.png";
-    img9Roupa = new Image();
-    img9Roupa.src = "images/in-game/times/inter.jpg";
-    img9Placar.onload = function () {
-        screenContext.drawImage(img9Placar, x, y + varY*2);
-    };
-    logos.push(new Logo(img9Placar, img9Roupa, new Coordenada(x, y + varY*2), 8));
+    logo9 = new Logo("images/placar/interlogo.png", "images/in-game/times/inter.jpg", new Coordenada(x, y + varY*2), 8);
+    desenhaFundoLogo(logo9.coordenada.x - 5, logo9.coordenada.y - 5);
+    logos.push(logo9);
 
-    desenhaFundoLogo(x+(varX*1) - 5, y+varY*2 - 5)
-    img10Placar = new Image();
-    img10Placar.src = "images/placar/olimpialogo.png";
-    img10Roupa = new Image();
-    img10Roupa.src = "images/in-game/times/olimpia.jpg";
-    img10Placar.onload = function () {
-        screenContext.drawImage(img10Placar, x+(varX*1), y + varY*2);
-    };
-    logos.push(new Logo(img10Placar, img10Roupa, new Coordenada(x+(varX*1), y + varY*2), 9));
+    logo10 = new Logo("images/placar/olimpialogo.png", "images/in-game/times/olimpia.jpg", new Coordenada(x+(varX*1), y + varY*2), 9);
+    desenhaFundoLogo(logo10.coordenada.x - 5, logo10.coordenada.y - 5);
+    logos.push(logo10);
 
-    desenhaFundoLogo(x+(varX*2) - 5, y+varY*2 - 5)
-    img11Placar = new Image();
-    img11Placar.src = "images/placar/pallogo.png";
-    img11Roupa = new Image();
-    img11Roupa.src = "images/in-game/times/palmeiras.jpg";
-    img11Placar.onload = function () {
-        screenContext.drawImage(img11Placar, x+(varX*2), y + varY*2);
-    };
-    logos.push(new Logo(img11Placar, img11Roupa, new Coordenada(x+(varX*2), y + varY*2), 10));
+    logo11 = new Logo("images/placar/pallogo.png", "images/in-game/times/palmeiras.jpg", new Coordenada(x+(varX*2), y + varY*2), 10);
+    desenhaFundoLogo(logo11.coordenada.x - 5, logo11.coordenada.y - 5);
+    logos.push(logo11);
 
-    desenhaFundoLogo(x+(varX*3) - 5, y+varY*2 - 5)
-    img12Placar = new Image();
-    img12Placar.src = "images/placar/racinglogo.png";
-    img12Roupa = new Image();
-    img12Roupa.src = "images/in-game/times/racing.jpg";
-    img12Placar.onload = function () {
-        screenContext.drawImage(img12Placar, x+(varX*3), y + varY*2);
-    };
-    logos.push(new Logo(img12Placar, img12Roupa, new Coordenada(x+(varX*3), y + varY*2), 11));
+    logo12 = new Logo("images/placar/racinglogo.png", "images/in-game/times/racing.jpg", new Coordenada(x+(varX*3), y + varY*2), 11);
+    desenhaFundoLogo(logo12.coordenada.x - 5, logo12.coordenada.y - 5);
+    logos.push(logo12);
 
-    desenhaFundoLogo(x+(varX*0) - 5, y+varY*3 - 5)
-    img13Placar = new Image();
-    img13Placar.src = "images/placar/riverlogo.png";
-    img13Roupa = new Image();
-    img13Roupa.src = "images/in-game/times/river.jpg";
-    img13Placar.onload = function () {
-        screenContext.drawImage(img13Placar, x, y + varY*3);
-    };
-    logos.push(new Logo(img13Placar, img13Roupa, new Coordenada(x, y + varY*3), 12));
+    logo13 = new Logo("images/placar/riverlogo.png", "images/in-game/times/river.jpg", new Coordenada(x, y + varY*3), 12);
+    desenhaFundoLogo(logo13.coordenada.x - 5, logo13.coordenada.y - 5);
+    logos.push(logo13);
 
-    desenhaFundoLogo(x+(varX*1) - 5, y+varY*3 - 5)
-    img14Placar = new Image();
-    img14Placar.src = "images/placar/splogo.png";
-    img14Roupa = new Image();
-    img14Roupa.src = "images/in-game/times/saopaulo.jpg";
-    img14Placar.onload = function () {
-        screenContext.drawImage(img14Placar, x+243.3, y + varY*3);
-    };
-    logos.push(new Logo(img14Placar, img14Roupa, new Coordenada(x+243.3, y + varY*3), 13));
+    logo14 = new Logo("images/placar/splogo.png", "images/in-game/times/saopaulo.jpg", new Coordenada(x+243.3, y + varY*3), 13);
+    desenhaFundoLogo(logo14.coordenada.x - 5, logo14.coordenada.y - 5);
+    logos.push(logo14);
 
-    desenhaFundoLogo(x+(varX*2) - 5, y+varY*3 - 5)
-    img15Placar = new Image();
-    img15Placar.src = "images/placar/unilogo.png";
-    img15Roupa = new Image();
-    img15Roupa.src = "images/in-game/times/universidade.jpg";
-    img15Placar.onload = function () {
-        screenContext.drawImage(img15Placar, x+486.6, y + varY*3);
-    };
-    logos.push(new Logo(img15Placar, img15Roupa, new Coordenada(x+486.6, y + varY*3), 14));
+    logo15 = new Logo("images/placar/unilogo.png", "images/in-game/times/universidade.jpg", new Coordenada(x+486.6, y + varY*3), 14);
+    desenhaFundoLogo(logo15.coordenada.x - 5, logo15.coordenada.y - 5);
+    logos.push(logo15);
 
-    desenhaFundoLogo(x+(varX*3) - 5, y+varY*3 - 5)
-    img16Placar = new Image();
-    img16Placar.src = "images/placar/velezlogo.png";
-    img16Roupa = new Image();
-    img16Roupa.src = "images/in-game/times/velez.jpg";
-    img16Placar.onload = function () {
-        screenContext.drawImage(img16Placar, x+729.9, y + varY*3);
-    };
-    logos.push(new Logo(img16Placar, img16Roupa, new Coordenada(x+729.9, y + varY*3), 15));
+    logo16 = new Logo("images/placar/velezlogo.png", "images/in-game/times/velez.jpg", new Coordenada(x+729.9, y + varY*3), 15);
+    desenhaFundoLogo(logo16.coordenada.x - 5, logo16.coordenada.y - 5);
+    logos.push(logo16);
 }
 
 function botaoClicado(pos){
@@ -208,23 +124,61 @@ function botaoClicado(pos){
     return -1;
 }
 
+function resetaTelaSelecao(){
+    screen.removeEventListener("click", handleClickSelecao);
+
+    primeiroTimeEscolhido = null;
+    qtdTimesEscolhidos = 0;
+    
+    if(escolheuSingleplayer === true){
+        caixaEscolhaSingleplayer.style.display = "none";
+        escolheuSingleplayer = false;
+    }
+    else if(escolheuMultiplayer === true){
+        caixaEscolhaMultiplayer.style.display = "none";
+        escolheuMultiplayer = false;
+    }
+
+    caixaEscolhaMultiplayer.childNodes[1].innerHTML = "Escolha o time 1"
+
+    mostraPlacar();
+}
+
+function handleClickSelecao(e){
+    pos = new Coordenada(e.offsetX, e.offsetY);
+
+    let indiceBotao = botaoClicado(pos);
+
+    if(indiceBotao != -1){
+        if(escolheuSingleplayer){
+            inicializaJogo(logos[indiceBotao]);
+        }else{
+            if(qtdTimesEscolhidos === 0){
+                primeiroTimeEscolhido = logos[indiceBotao];
+                qtdTimesEscolhidos++;
+                
+                caixaEscolhaMultiplayer.childNodes[1].innerHTML = "Escolha o time 2";
+            }else{
+                inicializaJogoMultiplayer(primeiroTimeEscolhido, logos[indiceBotao]);
+            }
+        }
+    }
+}
+
 function desenhaTelaSelecao(modalidade){
     LimpaTela();
     atualizarPlanoDeFundo('url("images/bg/bgchoose.jpg")');
 
-    if(modalidade === 0) mostraEscolhaSingleplayer();
-    else if(modalidade === 1) mostraEscolhaMultiplayer();
-
-    screen.addEventListener("click", function(e){
-        pos = new Coordenada(e.offsetX, e.offsetY);
-
-        let indiceBotao = botaoClicado(pos);
-        if(indiceBotao != -1){
-            console.log("teste");
-            //screen.removeEventListener("click");
-            inicializaJogo(logos[indiceBotao]);
-        }
-    });
-
     desenhaLogos();
+
+    if(modalidade === 0){
+        mostraEscolhaSingleplayer();
+        escolheuSingleplayer = true;
+    }
+    else if(modalidade === 1){
+        mostraEscolhaMultiplayer();
+        escolheuMultiplayer = true;
+    }
+
+    screen.addEventListener("click", handleClickSelecao);
 }

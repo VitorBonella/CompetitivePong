@@ -9,42 +9,47 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     </head>
     
     <body>
-        <div id="caixaCabecalho">
-            <h1 id="nomeJogo">PONG</h1>
-        </div>
-
-        <div id="caixaPlacar">
-            <div id="logoTime1">&nbsp;</div>
-            <div id="numGolsTime1">&nbsp;</div>
-            <div id="iconeX">&nbsp;</div>
-            <div id="numGolsTime2">&nbsp;</div>
-            <div id="logoTime2">&nbsp;</div>
-        </div>
-
-        <div id="caixaEscolhaSingleplayer">
-            <h2 id="escolha">Escolha seu time</h2>
-        </div>
-
-        <div id="caixaEscolhaMultiplayer">
-            <h2 id="escolha">Escolha dois times</h2>
-        </div>
-
-        <div id="caixaJogo">
-            <div id="caixaScreen">
-                <canvas id="screen" width="1000" height="500"></canvas>
+        <div id="caixaLateral">&nbsp;</div>
+        <div id="caixaPrincipal">
+            <div id="caixaCabecalho">
+                <h1 id="nomeJogo">PONG</h1>
             </div>
+    
+            <div id="caixaPlacar">
+                <div id="logoTime1">&nbsp;</div>
+                <div id="numGolsTime1">&nbsp;</div>
+                <div id="iconeX">&nbsp;</div>
+                <div id="numGolsTime2">&nbsp;</div>
+                <div id="logoTime2">&nbsp;</div>
+            </div>
+    
+            <div id="caixaEscolhaSingleplayer">
+                <h2 id="escolha">Escolha seu time</h2>
+            </div>
+    
+            <div id="caixaEscolhaMultiplayer">
+                <h2 id="escolha">Escolha o time 1</h2>
+            </div>
+    
+            <div id="caixaJogo">
+                <div id="caixaScreen">
+                    <canvas id="screen" width="1000" height="500"></canvas>
+                </div>
+            </div>
+    
+            <footer id="caixaRodape">
+                <p id="creditos">Game developed by: Danilo Lima, Enzo Cussuol and Vitor Bonella. MIT License &copy;.</p>
+            </footer>
         </div>
-
-        <footer id="caixaRodape">
-            <p id="creditos">Game developed by: Danilo Lima, Enzo Cussuol and Vitor Bonella. MIT License &copy;.</p>
-        </footer>
+        <div id="caixaLateral">&nbsp;</div>
     </body>
 
     <script src="javascript/canvas.js"></script>
+    <script src="javascript/config.js"></script>
     <script src="javascript/main_page.js"></script>
     <script src="javascript/credit_page.js"></script>
     <script src="javascript/game_page.js"></script>

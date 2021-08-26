@@ -71,8 +71,8 @@ class Retangulo{
 }
 
 class Bola extends Retangulo{
-    constructor(){
-        super(15,15);
+    constructor(size = 15){
+        super(size,size);
         this.velocidade = new Coordenada;
     }
     init(){
@@ -93,38 +93,37 @@ class Jogador extends Retangulo{
 }
 
 let ball = new Bola;
-ball.init();
 
+ball.init();
 
 let jogador1 = new Jogador;
 let jogador2 = new Jogador;
 
-jogador1.posicao.x = 40;
-jogador2.posicao.x = largura - 40;
+jogador1.posicao.x = p1_posX;
+jogador2.posicao.x = p2_posX;
 
-jogador1.posicao.y = altura/2;
-jogador2.posicao.y = altura/2;
+jogador1.posicao.y = p_posY;
+jogador2.posicao.y = p_posY;
 
 function defineJogadores(time1, time2 = null){
     
-    logoTime1Placar.style.backgroundImage = time1.imgPlacar;
+    logoTime1Placar.style.backgroundImage = "url(" + time1.imgPlacar.src +")";
+    
     jogador1.logo = time1.imgRoupa;
     
+    let indice;
     if(time2 === null){
         do{
-            let indice = Math.floor(Math.random() * (15 + 1));
+            indice = Math.floor(Math.random() * (15 + 1));
         }while(time2 === time1.indice);
         
-        logoTime2Placar.style.backgroundImage = logos[indice].imgPlacar;
+        logoTime2Placar.style.backgroundImage = "url(" + logos[indice].imgPlacar.src +")";
         jogador2.logo = logos[indice].imgRoupa;
         
     }else{
-        logoTime2Placar.style.backgroundImage = time2.imgPlacar;
+        logoTime2Placar.style.backgroundImage = "url(" +  time2.imgPlacar.src +")";
         jogador2.logo = time2.imgRoupa;
     }
-    
-    console.log("teste", time1, " x ". time2);   
-    console.log(time2)
 }
 
 function desenhaElementos(){
@@ -136,6 +135,15 @@ function desenhaElementos(){
     jogador2.desenha(cor = "#FFF",pattern = jogador2.logo);
 }
 
+
+function houveColisaoEsq(jogador, bola){
+
+}
+function houveColisaoDir(jogador, bola){
+
+}
+
+
 function houveColisao(jogador,bola){
     
     colidiu = false;
@@ -145,25 +153,31 @@ function houveColisao(jogador,bola){
        jogador.direita > bola.esquerda){
         colidiu = true;
     }
+
+
     if(colidiu){
-        bola.velocidade.x = -bola.velocidade.x * 1.05;
-        bola.velocidade.y =  bola.velocidade.y * 1.3 ;
+        if(Math.abs(bola.velocidade.x) < MaxVelX){
+            bola.velocidade.x = - 1 - bola.velocidade.x * 1.05;
+        }else{
+            bola.velocidade.x = -bola.velocidade.x;
+        }
+
+        if(Math.abs(bola.velocidade.y) < MaxVelY){
+            if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
+                bola.velocidade.y = Math.abs(bola.velocidade.y * 1.2);
+            }else{
+                bola.velocidade.y = -Math.abs(bola.velocidade.y * 1.2);
+            }
+
+        }else{
+            if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
+                bola.velocidade.y = bola.velocidade.y;
+            }else{
+                bola.velocidade.y = bola.velocidade.y * (-1);
+            }
+        }
     }
     
-}
-
-function atualizaPlacar(jogador){
-    if(jogador.pontos === 1){
-        // jogador.logo = LOGO 1
-    }else if(jogador.pontos === 2){
-        // jogador.logo = LOGO 2
-    }else if(jogador.pontos === 3){
-        // jogador.logo = LOGO 3
-    }else if(jogador.pontos === 4){
-        // jogador.logo = LOGO 4
-    }else if(jogador.pontos === 5){
-        // jogador.logo = LOGO 5
-    }
 }
 
 function reseta(){
@@ -182,6 +196,8 @@ function reseta(){
     //reseta placar
     numGolsTime1Placar.style.backgroundImage = numerosPlacarEsq[0];
     numGolsTime2Placar.style.backgroundImage = numerosPlacarDir[0];
+
+    logos = [];
 }
 
 function terminaJogo(){
@@ -201,20 +217,28 @@ function iniciaJogo(){
     let direcao = (Math.random() > .5 ? 1 : -1);
     let diagonal = (Math.random() * 2 - 1)
 
-    ball.velocidade.x = 5 * direcao;
-    ball.velocidade.y = 5 * diagonal;
-    
+    console.log(direcao)
+    ball.velocidade.x = 4 * direcao;
+    ball.velocidade.y = 4 * diagonal;
+
+    screen.removeEventListener("click",iniciaJogo);
 }
 
 let multiplayer = false;
 
+const muitofacil = 0.9
+const facil = 0.5
+const medio = 0.3
+const dificil = 0.1
+const impossivel = 0
+let dificuldade = muitofacil
 
 function atualiza(){
     
     ball.posicao.x += ball.velocidade.x;
     ball.posicao.y += ball.velocidade.y;
 
-    if(ball.direita > largura - 30 || ball.esquerda < 30){
+    if(ball.direita > largura - 15 || ball.esquerda < 15){
         if(ball.velocidade.x < 0){
             jogador2.pontos += 1;
             
@@ -225,7 +249,7 @@ function atualiza(){
         numGolsTime1Placar.style.backgroundImage = numerosPlacarEsq[jogador1.pontos];
         numGolsTime2Placar.style.backgroundImage = numerosPlacarDir[jogador2.pontos];
 
-        const maxGols = 2;
+        const maxGols = 5;
 
         if(jogador1.pontos === maxGols || jogador2.pontos === maxGols){
             terminaJogo();
@@ -234,12 +258,15 @@ function atualiza(){
         else{
             console.log(jogador1,jogador2);
             ball.init();
+            clickHandle();
         }
         
     }
     
-    if(ball.cima > altura - 5 || ball.baixo < 5){
-        ball.velocidade.y = -ball.velocidade.y;
+    if(ball.baixo > altura - 5){
+        ball.velocidade.y = -Math.abs(ball.velocidade.y);
+    }else if(ball.cima < 5){
+        ball.velocidade.y = Math.abs(ball.velocidade.y);
     }
 
     houveColisao(jogador1,ball);
@@ -251,14 +278,14 @@ function atualiza(){
 
         //pra cima
         if (jogador2.posicao.y > ball.posicao.y) {
-            if(Math.random() > .3){
-                if (ball.velocidade.x > 0) jogador2.posicao.y -= 5 ;
+            if(Math.random() > dificuldade){
+                if (ball.velocidade.x > 0) jogador2.posicao.y -= 10 ;
             }
         }
         //pra baixo
         if (jogador2.posicao.y < ball.posicao.y) {
-            if(Math.random() > .3){
-                if (ball.velocidade.x > 0) jogador2.posicao.y += 5;
+            if(Math.random() > dificuldade){
+                if (ball.velocidade.x > 0) jogador2.posicao.y += 10;
             }
         }
         
@@ -269,7 +296,7 @@ function atualiza(){
 
 }
 
-const movelen = 30
+const movelen = 40
 const enterlength = 50
 
 function ativar1Player(){
@@ -277,22 +304,22 @@ function ativar1Player(){
         e.preventDefault(); //to prevent scroll of screen
         switch (e.keyCode) {
             //player 1 keys
-            case 38:
+            case p1_UP:
                 if(jogador1.posicao.y > enterlength){
                     jogador1.posicao.y -= movelen;
                 }
                 break;
-            case 40:
+            case p1_DOWN:
                 if(jogador1.posicao.y < altura - enterlength){
                     jogador1.posicao.y += movelen;
                 }
                 break;
-            case 87:
+            case p2_UP:
                 if(jogador1.posicao.y > enterlength){
                     jogador1.posicao.y -= movelen;
                 }
                 break;
-            case 83:
+            case p2_DOWN:
                 if(jogador1.posicao.y < altura - enterlength){
                     jogador1.posicao.y += movelen;
                 }
@@ -308,23 +335,23 @@ function ativar2Player(){
         e.preventDefault(); 
         switch (e.keyCode) {
             //player 1 keys
-            case 38:
+            case p1_UP:
                 if(jogador2.posicao.y > enterlength){
                     jogador2.posicao.y -= movelen;
                 }
                 break;
-            case 40:
+            case p1_DOWN:
                 if(jogador2.posicao.y < altura - enterlength){
                     jogador2.posicao.y += movelen;
                 }
                 break;
             //player 2 keys
-            case 87:
+            case p2_UP:
                 if(jogador1.posicao.y > enterlength){
                     jogador1.posicao.y -= movelen;
                 }
                 break;
-            case 83:
+            case p2_DOWN:
                 if(jogador1.posicao.y < altura - enterlength){
                     jogador1.posicao.y += movelen;
                 }
@@ -335,14 +362,17 @@ function ativar2Player(){
  
 
 }
+
+
 function clickHandle(){
-    screen.addEventListener('click',evento => {
-        iniciaJogo();
-    });
+    screen.addEventListener('click',iniciaJogo);
     
 }
 
 function inicializaJogo(time1){
+    console.log("INICIALIZA JOGO SINGLEPLAYER:");
+    console.log(time1);
+    resetaTelaSelecao();
     defineJogadores(time1);
     clickHandle();
     multiplayer = false;
@@ -354,9 +384,11 @@ function inicializaJogo(time1){
     
 }
 
-function inicializaJogoMultiplayer(time1 , time2){
-    mostraPlacar();
-    
+function inicializaJogoMultiplayer(time1 , time2){  
+    console.log("INICIALIZA JOGO MULTIPLAYER:");  
+    resetaTelaSelecao();
+
+
     defineJogadores(time1,time2);
     clickHandle();
     multiplayer = true;

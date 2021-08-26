@@ -15,7 +15,7 @@ function mostraPong(){
 }
 
 function desenharBaseMenu() {
-  screenContext.fillStyle = "rgba(255,255,255,0.4)";
+  screenContext.fillStyle = "rgba(255,255,255,0)";
   let x = parseInt((largura / 2) - (larguraMenu / 2));
   let y = parseInt((altura / 2) - (alturaMenu / 2));
   screenContext.fillRect(x, y, larguraMenu, alturaMenu);
@@ -26,25 +26,25 @@ function desenharItensMenu() {
   let y = parseInt((altura / 2) - (alturaMenu / 2));
   
   img1 = new Image();
-  img1.src = "images/AmistosoButton.png";
+  img1.src = "images/menu/amistoso0.png";
   img1.onload = function () {
     screenContext.drawImage(img1, x, y);
   };
 
   img2= new Image();
-  img2.src = "images/MultiplayerButton.png";
+  img2.src = "images/menu/multiplayer0.png";
   img2.onload = function () {
     screenContext.drawImage(img2, x, y+100);
   };
 
   img3 = new Image();
-  img3.src = "images/CompeticaoButton.png";
+  img3.src = "images/menu/competicao0.png";
   img3.onload = function () {
     screenContext.drawImage(img3, x, y+200);
   };
 
   img4 = new Image();
-  img4.src = "images/CreditosButton.png";
+  img4.src = "images/menu/instrucoes0.png";
   img4.onload = function () {
     screenContext.drawImage(img4, x, y+300);
   };
@@ -57,7 +57,6 @@ function desenhaMenu(){
   atualizarPlanoDeFundo("url('images/menu.jpg')");
   desenharBaseMenu();
   desenharItensMenu();
-  console.log("MENU DESENHADO");
 }
 
 function destacaItem(indice) {
@@ -68,25 +67,25 @@ function destacaItem(indice) {
   img = new Image();
   switch (indice) {
       case 0:
-          img.src = "images/AmistosoButton2.png";
+          img.src = "images/menu/amistoso1.png";
           img.onload = function () {
             screenContext.drawImage(img, x, y);
           };
           break;
       case 1:
-          img.src = "images/MultiplayerButton2.png";
+          img.src = "images/menu/multiplayer1.png";
           img.onload = function () {
             screenContext.drawImage(img, x, y+100);
           };
           break;
       case 2:
-          img.src = "images/CompeticaoButton2.png";
+          img.src = "images/menu/competicao1.png";
           img.onload = function () {
             screenContext.drawImage(img, x, y+200);
           };
           break;
       case 3:
-          img.src = "images/CreditosButton2.png";
+          img.src = "images/menu/instrucoes1.png";
           img.onload = function () {
             screenContext.drawImage(img, x, y+300);
           };
@@ -100,13 +99,9 @@ function selecionaItem(indice) {
   switch (indice) {
       case 0:
           desenhaTelaSelecao(0);
-          // inicializaJogo();
-          // mostraPlacar();
           break;
       case 1:
-          //desenhaTelaSelecao(1);
-          inicializaJogoMultiplayer();
-          mostraPlacar();
+          desenhaTelaSelecao(1);
           break;
       case 2:
           mostraPlacar();
