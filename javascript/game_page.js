@@ -22,7 +22,7 @@ class Retangulo{
     get esquerda(){
         return this.posicao.x - this.tamanho.x /2;
     }
-    desenha(cor = "#FFF",pattern = null){
+    desenha(cor = Cores["branco"], pattern = null){
        
         if(pattern != null){
             //let imgTime = new Image();
@@ -59,7 +59,7 @@ class Jogador extends Retangulo{
     constructor(){
         super(20,80);
         this.pontos = 0;
-        this.logo = "#FFF"
+        this.logo = Cores["branco"];
     }
 }
 
@@ -113,8 +113,8 @@ function desenhaElementos(){
     atualizarPlanoDeFundo("url('images/in-game/campo.jpg')");
 
     ball.desenha();
-    jogador1.desenha(cor = "#FFF",pattern = jogador1.logo);
-    jogador2.desenha(cor = "#FFF",pattern = jogador2.logo);
+    jogador1.desenha(cor = Cores["branco"], pattern = jogador1.logo);
+    jogador2.desenha(cor = Cores["branco"], pattern = jogador2.logo);
 }
 
 
@@ -129,11 +129,11 @@ function houveColisaoDir(jogador, bola){
 Funcao responsavel por rebater a bola quando há 
 colisao entre um player e um jogador
 */
-function rebateBola(bola){
+function rebateBola(jogador, bola){
     //caso a velocidade x da bola seja menor que a velocidade maxima estipulada
     if(Math.abs(bola.velocidade.x) < MaxVelX){
         //rebate a bola e aumenta sua velocidade
-        bola.velocidade.x = - 1 - bola.velocidade.x * 1.05;
+        bola.velocidade.x = -bola.velocidade.x * 1.1;
     }else{
         //rebate a bola
         bola.velocidade.x = -bola.velocidade.x;
@@ -141,14 +141,16 @@ function rebateBola(bola){
 
     //caso a velocidade y da bola seja menor que a velocidade maxima estipulada
     if(Math.abs(bola.velocidade.y) < MaxVelY){
-        if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
-            bola.velocidade.y = Math.abs(bola.velocidade.y * 1.2);
-        }else{
-            bola.velocidade.y = -Math.abs(bola.velocidade.y * 1.2);
+        if(bola.posicao.y > jogador.posicao.y){ // se bater na metade de baixo do jogador
+            console.log("bateu em baixo");
+            bola.velocidade.y =   Math.abs(bola.velocidade.y * 1.2);
+        }else{ // se bater na metade de cima do jogador
+            console.log("bateu em cima");
+            bola.velocidade.y = - Math.abs(bola.velocidade.y * 1.2);
         }
 
     }else{
-        if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
+        if(bola.posicao.y > jogador.posicao.y){
             bola.velocidade.y = bola.velocidade.y;
         }else{
             bola.velocidade.y = bola.velocidade.y * (-1);
@@ -171,7 +173,7 @@ function houveColisao(jogador,bola){
     }
 
     if(colidiu){
-        rebateBola(bola);
+        rebateBola(jogador, bola);
     }
     
 }
@@ -233,14 +235,8 @@ function iniciaJogo(){
 
 let multiplayer = false; //define se o jogo é multiplayer ou singleplayer
 
-//dificuldades do jogo
-const muitofacil = 0.7
-const facil = 0.6
-const medio = 0.3
-const dificil = 0.1
-const impossivel = 0.01
-
-let dificuldade = muitofacil //seletor de dificuldade
+//seletor de dificuldade
+const dificuldade = muitofacil
 
 /*
 Funcao principal do jogo para atualizar a tela e 
@@ -313,10 +309,6 @@ function atualiza(){
     desenhaElementos(); //atualiza os elementos do jogo
 
 }
-
-const movelen = 40 //quantidade de movimento em um click
-const enterlength = 50 //quantidade que o jogador é capaz de ultrapassar o campo
-
 
 /*
 Ativa os os botoes para 1 jogador
@@ -417,7 +409,7 @@ function inicializaJogo(time1){
     //loop principal do jogo
     gameLoopInterval = setInterval(function() {
         atualiza();
-      }, 1000/60);
+      }, 1000/framehate);
       
     
 }
@@ -439,8 +431,5 @@ function inicializaJogoMultiplayer(time1 , time2){
     //loop principal
     gameLoopInterval = setInterval(function() {
         atualiza()
-      }, 1000/60);
-    
-
+      }, 1000/framehate);
 }
-
