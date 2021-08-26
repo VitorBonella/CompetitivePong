@@ -2,37 +2,8 @@ const logoTime1Placar = document.getElementById("logoTime1");
 const numGolsTime1Placar = document.getElementById("numGolsTime1");
 const logoTime2Placar = document.getElementById("logoTime2");
 const numGolsTime2Placar = document.getElementById("numGolsTime2");
-let gameLoopInterval;
+let gameLoopInterval; //variavel do loop principal do jogo
 
-/*
-let listatimes = {  fla : 'images/in-game/times/flamengo.jpg',  flu : 'images/in-game/times/fluminense.jpg',
-                    arg : 'images/in-game/times/argentinos.jpg',atl : 'images/in-game/times/atletico.jpg', 
-                    boca : 'images/in-game/times/boca.jpg',     cer : 'images/in-game/times/cerro.jpg', 
-                    dyj : 'images/in-game/times/defensa.jpg',   int : 'images/in-game/times/inter.jpg', 
-                    oli : 'images/in-game/times/olimpia.jpg',   pal : 'images/in-game/times/palmeiras.jpg', 
-                    rac : 'images/in-game/times/racing.jpg',    riv : 'images/in-game/times/river.jpg', 
-                    sao : 'images/in-game/times/saopaulo.jpg',  uni : 'images/in-game/times/universidade.jpg', 
-                    bar : 'images/in-game/times/barcelona.jpg', vel : 'images/in-game/times/velez.jpg', 
-};
-*/
-
-let numerosPlacarEsq = {
-    0 : "url('images/placar/0l.png')",
-    1 : "url('images/placar/1l.png')",
-    2 : "url('images/placar/2l.png')",
-    3 : "url('images/placar/3l.png')",
-    4 : "url('images/placar/4l.png')",
-    5 : "url('images/placar/5l.png')",
-}
-
-let numerosPlacarDir = {
-    0 : "url('images/placar/0r.png')",
-    1 : "url('images/placar/1r.png')",
-    2 : "url('images/placar/2r.png')",
-    3 : "url('images/placar/3r.png')",
-    4 : "url('images/placar/4r.png')",
-    5 : "url('images/placar/5r.png')",
-}
 
 class Retangulo{
     constructor(w,h){
@@ -92,12 +63,12 @@ class Jogador extends Retangulo{
     }
 }
 
+//Inicializa os objetos basicos para existir uma partida do jogo
 let ball = new Bola;
-
-ball.init();
-
 let jogador1 = new Jogador;
 let jogador2 = new Jogador;
+
+ball.init();
 
 jogador1.posicao.x = p1_posX;
 jogador2.posicao.x = p2_posX;
@@ -105,6 +76,13 @@ jogador2.posicao.x = p2_posX;
 jogador1.posicao.y = p_posY;
 jogador2.posicao.y = p_posY;
 
+/*
+Funcao que pode receber como entrada 1 ou 2 times
+caso ele receba 1 time ira definir a imagem do placar 
+e o estilo do jogador para o player1, e para o player2 irá 
+definir aleatoriamente um time. Caso ele receba 2 times irá
+definir a imagem e estilo dos 2.
+*/
 function defineJogadores(time1, time2 = null){
     
     logoTime1Placar.style.backgroundImage = "url(" + time1.imgPlacar.src +")";
@@ -115,7 +93,7 @@ function defineJogadores(time1, time2 = null){
     if(time2 === null){
         do{
             indice = Math.floor(Math.random() * (15 + 1));
-        }while(time2 === time1.indice);
+        }while(indice === time1.indice);
         
         logoTime2Placar.style.backgroundImage = "url(" + logos[indice].imgPlacar.src +")";
         jogador2.logo = logos[indice].imgRoupa;
@@ -126,6 +104,10 @@ function defineJogadores(time1, time2 = null){
     }
 }
 
+/* 
+Funcao responsavel por desenhar os elementos no jogo
+tais como o plano de fundo , a bola e os jogadores
+*/
 function desenhaElementos(){
     LimpaTela();
     atualizarPlanoDeFundo("url('images/in-game/campo.jpg')");
@@ -143,7 +125,41 @@ function houveColisaoDir(jogador, bola){
 
 }
 
+/*
+Funcao responsavel por rebater a bola quando há 
+colisao entre um player e um jogador
+*/
+function rebateBola(bola){
+    //caso a velocidade x da bola seja menor que a velocidade maxima estipulada
+    if(Math.abs(bola.velocidade.x) < MaxVelX){
+        //rebate a bola e aumenta sua velocidade
+        bola.velocidade.x = - 1 - bola.velocidade.x * 1.05;
+    }else{
+        //rebate a bola
+        bola.velocidade.x = -bola.velocidade.x;
+    }
 
+    //caso a velocidade y da bola seja menor que a velocidade maxima estipulada
+    if(Math.abs(bola.velocidade.y) < MaxVelY){
+        if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
+            bola.velocidade.y = Math.abs(bola.velocidade.y * 1.2);
+        }else{
+            bola.velocidade.y = -Math.abs(bola.velocidade.y * 1.2);
+        }
+
+    }else{
+        if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
+            bola.velocidade.y = bola.velocidade.y;
+        }else{
+            bola.velocidade.y = bola.velocidade.y * (-1);
+        }
+    }
+}
+
+/*
+Funcao que define se houve colisao entre um jogador
+e a bola , caso isso ocorra a bola ira rebater
+*/
 function houveColisao(jogador,bola){
     
     colidiu = false;
@@ -151,45 +167,28 @@ function houveColisao(jogador,bola){
        jogador.cima < bola.baixo &&
        jogador.esquerda < bola.direita && 
        jogador.direita > bola.esquerda){
-        colidiu = true;
+       colidiu = true;
     }
 
-
     if(colidiu){
-        if(Math.abs(bola.velocidade.x) < MaxVelX){
-            bola.velocidade.x = - 1 - bola.velocidade.x * 1.05;
-        }else{
-            bola.velocidade.x = -bola.velocidade.x;
-        }
-
-        if(Math.abs(bola.velocidade.y) < MaxVelY){
-            if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
-                bola.velocidade.y = Math.abs(bola.velocidade.y * 1.2);
-            }else{
-                bola.velocidade.y = -Math.abs(bola.velocidade.y * 1.2);
-            }
-
-        }else{
-            if((bola.cima+bola.baixo)/2 > (jogador.cima+jogador.baixo)/2){
-                bola.velocidade.y = bola.velocidade.y;
-            }else{
-                bola.velocidade.y = bola.velocidade.y * (-1);
-            }
-        }
+        rebateBola(bola);
     }
     
 }
 
+/* 
+Funcao que reseta os objetos quando o jogo termina
+*/
 function reseta(){
 
     ball.init(); //reseta bola
 
     //reseta jogadores
-    jogador1.posicao.x = 40;
-    jogador2.posicao.x = largura - 40;
+    jogador1.posicao.x = p1_posX;
+    jogador2.posicao.x = p2_posX;
 
-    jogador1.posicao.y = altura/2;
-    jogador2.posicao.y = altura/2;
+    jogador1.posicao.y = p_posY;
+    jogador2.posicao.y = p_posY;
     jogador1.pontos = 0;
     jogador2.pontos = 0;
 
@@ -197,111 +196,135 @@ function reseta(){
     numGolsTime1Placar.style.backgroundImage = numerosPlacarEsq[0];
     numGolsTime2Placar.style.backgroundImage = numerosPlacarDir[0];
 
+    //reseta os times da selecao
     logos = [];
 }
 
+/*
+Funcao invocada quando o jogo acaba e
+volta para o menu
+*/
 function terminaJogo(){
     
-    
-    reseta();
+    reseta(); //reseta objetos
     console.log("GANHOU");
 
-    clearInterval(gameLoopInterval);
+    clearInterval(gameLoopInterval); //para loop do jogo
     
-    LimpaTela();
-    mostraPong();
-    desenhaMenu();
+    LimpaTela(); //limpa tela do jogo
+    mostraPong(); //retorna titulo do jogo
+    desenhaMenu(); //volta ao menu
 }
 
+/*
+Funcao que bota a bola em movimento aleatoriamente
+quando há um click na tela para iniciar o jogo
+*/
 function iniciaJogo(){
-    let direcao = (Math.random() > .5 ? 1 : -1);
-    let diagonal = (Math.random() * 2 - 1)
+    let direcao = (Math.random() > .5 ? 1 : -1); //decide a direcao 
+    let diagonal = (Math.random() * 2 - 1) //decide se a bola começa pra diagonal
 
-    console.log(direcao)
-    ball.velocidade.x = 4 * direcao;
-    ball.velocidade.y = 4 * diagonal;
+    //da velocidade para bola
+    ball.velocidade.x = ballBaseSpeed * direcao;
+    ball.velocidade.y = ballBaseSpeed * diagonal; 
 
-    screen.removeEventListener("click",iniciaJogo);
+    screen.removeEventListener("click",iniciaJogo); //remove possibilidade de click
 }
 
-let multiplayer = false;
+let multiplayer = false; //define se o jogo é multiplayer ou singleplayer
 
-const muitofacil = 0.9
-const facil = 0.5
+//dificuldades do jogo
+const muitofacil = 0.7
+const facil = 0.6
 const medio = 0.3
 const dificil = 0.1
-const impossivel = 0
-let dificuldade = muitofacil
+const impossivel = 0.01
 
+let dificuldade = muitofacil //seletor de dificuldade
+
+/*
+Funcao principal do jogo para atualizar a tela e 
+controlar a logica , em 60 fps
+*/
 function atualiza(){
     
+    //movimenta bola
     ball.posicao.x += ball.velocidade.x;
     ball.posicao.y += ball.velocidade.y;
 
-    if(ball.direita > largura - 15 || ball.esquerda < 15){
+    //caso a bola colida com a direta ou esquerda
+    if(ball.direita > largura || ball.esquerda < 0){
         if(ball.velocidade.x < 0){
-            jogador2.pontos += 1;
-            
+            jogador2.pontos += 1;    
         }else{
             jogador1.pontos += 1;
         }
         
+        //atualiza o placar baseado nos pontos dos jogadores
         numGolsTime1Placar.style.backgroundImage = numerosPlacarEsq[jogador1.pontos];
         numGolsTime2Placar.style.backgroundImage = numerosPlacarDir[jogador2.pontos];
 
-        const maxGols = 5;
+        const maxGols = 5; //quantidade de gols para terminar o jogo
 
+        //caso o jogo termine
         if(jogador1.pontos === maxGols || jogador2.pontos === maxGols){
             terminaJogo();
             return;
         }
         else{
             console.log(jogador1,jogador2);
-            ball.init();
-            clickHandle();
+            ball.init(); //centraliza bola
+            clickHandle(); //volta a escutar o click para iniciar o jogo
         }
         
     }
     
+    //colisao em cima ou em baixo do campo
     if(ball.baixo > altura - 5){
         ball.velocidade.y = -Math.abs(ball.velocidade.y);
     }else if(ball.cima < 5){
         ball.velocidade.y = Math.abs(ball.velocidade.y);
     }
 
+    //detectar colisao com os players
     houveColisao(jogador1,ball);
     houveColisao(jogador2,ball);
 
+    //mini IA caso o jogo seja singleplayer
     if(!multiplayer){
         
-        //jogador2.posicao.y += movelen;
-
         //pra cima
         if (jogador2.posicao.y > ball.posicao.y) {
+            //probabilidade de acertar
             if(Math.random() > dificuldade){
-                if (ball.velocidade.x > 0) jogador2.posicao.y -= 10 ;
+                if (ball.velocidade.x > 0) jogador2.posicao.y -= 15 ;
             }
         }
         //pra baixo
         if (jogador2.posicao.y < ball.posicao.y) {
+            //probabilidade de acertar
             if(Math.random() > dificuldade){
-                if (ball.velocidade.x > 0) jogador2.posicao.y += 10;
+                if (ball.velocidade.x > 0) jogador2.posicao.y += 15;
             }
         }
         
     }
 
-    
-    desenhaElementos();
+    desenhaElementos(); //atualiza os elementos do jogo
 
 }
 
-const movelen = 40
-const enterlength = 50
+const movelen = 40 //quantidade de movimento em um click
+const enterlength = 50 //quantidade que o jogador é capaz de ultrapassar o campo
 
+
+/*
+Ativa os os botoes para 1 jogador
+W e S ou | UpArrow ou DownArrow
+*/
 function ativar1Player(){
     document.onkeydown = function(e) {
-        e.preventDefault(); //to prevent scroll of screen
+        e.preventDefault(); //tira o scroll
         switch (e.keyCode) {
             //player 1 keys
             case p1_UP:
@@ -329,6 +352,11 @@ function ativar1Player(){
     };
 }
 
+/*
+Ativa os os botoes para 2 jogadores
+Player1 -> W e S  
+Player2 -> UpArrow e DownArrow
+*/
 function ativar2Player(){
     
     document.onkeydown = document.onkeyup = function(e) {
@@ -363,20 +391,30 @@ function ativar2Player(){
 
 }
 
-
+/*
+Ativa para que a bola começe o movimento
+com um click
+*/
 function clickHandle(){
     screen.addEventListener('click',iniciaJogo);
-    
 }
 
+/*
+Loop Principal do jogo singleplayer
+Inicializa as variaveis para o jogo rodar
+*/
 function inicializaJogo(time1){
     console.log("INICIALIZA JOGO SINGLEPLAYER:");
     console.log(time1);
+
+    //inicializando as variaveis e telas
     resetaTelaSelecao();
     defineJogadores(time1);
     clickHandle();
     multiplayer = false;
     ativar1Player();
+
+    //loop principal do jogo
     gameLoopInterval = setInterval(function() {
         atualiza();
       }, 1000/60);
@@ -384,18 +422,24 @@ function inicializaJogo(time1){
     
 }
 
+/*
+Loop Principal do jogo multiplayer
+Inicializa as variaveis para o jogo rodar
+*/
 function inicializaJogoMultiplayer(time1 , time2){  
     console.log("INICIALIZA JOGO MULTIPLAYER:");  
+    
+    //inicializa variaveis e telas
     resetaTelaSelecao();
-
-
     defineJogadores(time1,time2);
     clickHandle();
     multiplayer = true;
     ativar2Player();
+
+    //loop principal
     gameLoopInterval = setInterval(function() {
         atualiza()
-      }, 1000/30);
+      }, 1000/60);
     
 
 }
