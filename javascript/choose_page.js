@@ -39,6 +39,7 @@ function mostraEscolhaMultiplayer(){
 function desenhaFundoLogo(x,y,largura = 80, altura = 80){
     screenContext.fillStyle = "rgba(255,255,255,0.35)";
     screenContext.fillRect(x, y, largura, altura);
+    screenContext.strokeRect(x, y, largura, altura)
 }
 
 function desenhaLogos(){

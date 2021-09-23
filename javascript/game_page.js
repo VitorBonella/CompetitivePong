@@ -141,12 +141,15 @@ function rebateBola(jogador, bola){
 
     //caso a velocidade y da bola seja menor que a velocidade maxima estipulada
     if(Math.abs(bola.velocidade.y) < MaxVelY){
-        if(bola.posicao.y > jogador.posicao.y){ // se bater na metade de baixo do jogador
+        if(bola.posicao.y > jogador.posicao.y + 20){ // se bater na metade de baixo do jogador
             console.log("bateu em baixo");
             bola.velocidade.y =   Math.abs(bola.velocidade.y * 1.2);
-        }else{ // se bater na metade de cima do jogador
+        }else if(bola.posicao.y < jogador.posicao.y - 20){ // se bater na metade de cima do jogador
             console.log("bateu em cima");
             bola.velocidade.y = - Math.abs(bola.velocidade.y * 1.2);
+        }else{
+            console.log("bateu no meio");
+            bola.velocidade.y = bola.velocidade.y * 1.2;
         }
 
     }else{
@@ -432,4 +435,10 @@ function inicializaJogoMultiplayer(time1 , time2){
     gameLoopInterval = setInterval(function() {
         atualiza()
       }, 1000/framehate);
+}
+
+function inicializaJogoCompeticao(time1){
+    console.log("INICIALIZA JOGO COMPETICAO:");
+
+
 }

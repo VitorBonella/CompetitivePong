@@ -2,7 +2,7 @@ let larguraMenu = 320;
 let alturaMenu = 380;
 
 function desenharBaseMenu() {
-    screenContext.fillStyle = "rgba(255,255,255,0.5)";
+    screenContext.fillStyle = "rgba(255,255,255,0.25)";
     let x = parseInt((largura / 2) - (larguraMenu / 2));
     let y = parseInt((altura / 2) - (alturaMenu / 2));
     screenContext.fillRect(x-10, y, larguraMenu, alturaMenu);
