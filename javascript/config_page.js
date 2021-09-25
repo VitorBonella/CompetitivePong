@@ -73,7 +73,7 @@ function desenhaDificuldade(indice){
     let largConfig = 400
     let altConfig = 500
     let x = parseInt((largura*3/4 ) - (largConfig / 2));
-    let y = parseInt((altura / 2) - (altConfig / 2) + 400);
+    let y = parseInt((altura / 2) - (altConfig / 2) + 100);
 
     f = new Image();
     if(indice == 1) f.src = "images/config/facil1.png";
