@@ -41,7 +41,7 @@ body{
     transform: translate(-50%, 0%);
 }
 
-#caixaCabecalho, #caixaPlacar, #caixaEscolhaSingleplayer, #caixaEscolhaMultiplayer{
+#caixaCabecalho, #caixaPlacar, #caixaEscolhaSingleplayer, #caixaEscolhaMultiplayer, #caixaConfiguracoes{
     width: 350px;
     height: 70px;
     margin-bottom: 30px;
@@ -62,6 +62,11 @@ body{
 #caixaPlacar{
     display: none;
     flex-direction: row;
+}
+
+#caixaConfiguracoes{
+    display: none;
+    font-size: 1.35em;
 }
 
 #logoTime1, #numGolsTime1, #iconeX, #numGolsTime2, #logoTime2{
@@ -115,6 +120,10 @@ body{
 }
 
 #msgJogo{
+    display: none;
+}
+
+#msgConfiguracoes{
     display: none;
 }
 

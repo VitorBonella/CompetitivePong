@@ -18,7 +18,7 @@ function atualizarPlanoDeFundo(url) {
 function LimpaTela(){
     screen.removeEventListener('mousemove',handleMouse);
     screen.removeEventListener('click',handleClick);
-
+    screen.removeEventListener('click',configuraClick);
     screenContext.clearRect(0, 0, screen.width, screen.height);
 }
 

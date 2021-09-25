@@ -213,6 +213,9 @@ function terminaJogo(){
 
     clearInterval(gameLoopInterval); //para loop do jogo
     
+    document.onkeydown = null
+    screen.removeEventListener('mousemove',PlayerMouseMove);
+   
     LimpaTela(); //limpa tela do jogo
     mostraPong(); //retorna titulo do jogo
     desenhaMenu(); //volta ao menu
@@ -341,14 +344,20 @@ function ativar1PlayerTeclado(){
     };
 }
 
+
+function PlayerMouseMove(event){
+    const escala = event.offsetY / event.target.getBoundingClientRect().height;
+        
+        if(event.offsetY < altura-enterlength+10 && event.offsetY > enterlength-10){
+            jogador1.posicao.y = screen.height * escala;
+        }    
+}
+
 /*
 Ativa para o player 1 seguir o mouse
 */
 function ativar1PlayerMouse(){
-    screen.addEventListener('mousemove', event => {
-        const escala = event.offsetY / event.target.getBoundingClientRect().height;
-        jogador1.posicao.y = screen.height * escala;
-    });
+    screen.addEventListener('mousemove', PlayerMouseMove);
 }
 
 /*
@@ -419,6 +428,7 @@ function inicializaJogo(time1){
         ativar1PlayerMouse();
     }
     
+    console.log(comando)
 
     //loop principal do jogo
     gameLoopInterval = setInterval(function() {

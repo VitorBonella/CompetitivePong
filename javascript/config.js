@@ -5,9 +5,9 @@ const ballsize = 15 //define o tamanho da bolinha
 const ballBaseSpeed = 5 //define a velocidade base da bola
 
 const movelen = 50 //quantidade de movimento em um click
-const enterlength = 50 //quantidade que o jogador é capaz de ultrapassar o campo
+const enterlength = 40 //quantidade que o jogador é capaz de ultrapassar o campo
 
-const maxGols = 3; //quantidade de gols para terminar o jogo
+let maxGols = 3; //quantidade de gols para terminar o jogo
 
 const teclado = 1;
 const mouse = 2;
@@ -25,7 +25,7 @@ const medio = 0.3
 const dificil = 0.1
 const impossivel = 0.01
 
-let dificuldade = facil
+let dificuldade = medio
 
 //Taxa de atualizaçao
 const framehate = 50

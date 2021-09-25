@@ -71,6 +71,7 @@ function mostraMsgMenu(){
     caixaInformacoes.children[0].style.display = "initial";
     caixaInformacoes.children[1].style.display = "none";
     caixaInformacoes.children[2].style.display = "none";
+    caixaInformacoes.children[3].style.display = "none";
 }
 
 /*
@@ -87,9 +88,6 @@ function selecionaItem(indice) {
             break;
         case 2:
             desenhaTelaConfiguracoes();
-            break;
-        case 3:
-            // ShowCredits();
             break;
     }
     

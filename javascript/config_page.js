@@ -1,9 +1,18 @@
+function mostraCabecalhoConfiguracoes(){
+    caixaCabecalho.style.display = "none";
+    caixaConfiguracoes.style.display = "initial";
+}
+
+function mostraMsgConfiguracoes(){
+    caixaInformacoes.children[0].style.display = "none";
+    caixaInformacoes.children[3].style.display = "initial";
+}
+
 function desenharBaseConfig(){
-    console.log("basemenu");
     configura();
-    desenhaGols(3);
-    desenhaComandos(mouse);
-    desenhaDificuldade(medio);   
+    desenhaGols(maxGols);
+    desenhaComandos(comando);
+    desenhaDificuldade(dificuldade);   
 }
 
 function desenhaGols(indice){ 
@@ -11,7 +20,7 @@ function desenhaGols(indice){
     let altConfig = 500
     let x = parseInt((largura*3/4 ) - (largConfig / 2));
     let y = parseInt((altura / 2) - (altConfig / 2) + 250);
-    console.log(x,y)
+    
     g1 = new Image();
     if(indice == 1) g1.src = "images/config/1g.png";
     else g1.src = "images/config/1p.png";
@@ -53,7 +62,7 @@ function desenhaComandos(indice){
     let altConfig = 500
     let x = parseInt((largura*3/4 ) - (largConfig / 2));
     let y = parseInt((altura / 2) - (altConfig / 2) + 400);
-    console.log(x,y)
+    
     m = new Image();
     if(indice == mouse) m.src = "images/config/mouse1.png";
     else m.src = "images/config/mouse0.png";
@@ -74,26 +83,26 @@ function desenhaDificuldade(indice){
     let altConfig = 500
     let x = parseInt((largura*3/4 ) - (largConfig / 2));
     let y = parseInt((altura / 2) - (altConfig / 2) + 100);
-
+    
     f = new Image();
-    if(indice == 1) f.src = "images/config/facil1.png";
+    if(indice == facil) f.src = "images/config/facil1.png";
     else f.src = "images/config/facil0.png";
     f.onload = function(){
         screenContext.drawImage(f, x, y)
     }
 
-    m = new Image();
-    if(indice == 2) m.src = "images/config/medio1.png";
-    else m.src = "images/config/medio0.png";
-    m.onload = function(){
-        screenContext.drawImage(m, x+200, y)
+    me = new Image();
+    if(indice == medio) me.src = "images/config/medio1.png";
+    else me.src = "images/config/medio0.png";
+    me.onload = function(){
+        screenContext.drawImage(me, x+133, y)
     }
 
-    d = new Image();
-    if(indice == 3) d.src = "images/config/dificil1.png";
-    else d.src = "images/config/dificil0.png";
-    d.onload = function(){
-        screenContext.drawImage(d, x+200, y)
+    di = new Image();
+    if(indice == dificil) di.src = "images/config/dificil1.png";
+    else di.src = "images/config/dificil0.png";
+    di.onload = function(){
+        screenContext.drawImage(di, x+266, y)
     }
 
 
@@ -101,68 +110,58 @@ function desenhaDificuldade(indice){
 
 function desenhaTelaConfiguracoes(){
     LimpaTela();
+    mostraCabecalhoConfiguracoes();
+    mostraMsgConfiguracoes();
     atualizarPlanoDeFundo('url(images/bg/bgconfig.jpg)');
     desenharBaseConfig();
-}
-
-function alteraComandos(indice){
-    switch(indice){
-        case 1: comando = teclado;
-        case 2: comando = mouse;
-    }
-}
-
-function alteraNumeroGols(indice){
-    switch(indice){
-        case 1: maxGols = 1;
-                break;
-        case 2: maxGols = 2;
-                break;
-        case 3: maxGols = 3;
-                break;
-        case 4: maxGols = 4;
-                break;
-        case 5: maxGols = 5;
-                break;
-        default: maxGols = 3;
-                break;
-    }
-}
-
-function alteraDificuldade(indice){
-    switch(indice){
-        case 1: dificuldade = muitofacil;
-                break;
-        case 2: dificuldade = facil;
-                break;
-        case 3: dificuldade = medio;
-                break;
-        case 4: dificuldade = dificil;
-                break;
-        case 5: dificuldade = impossivel;
-                break;
-    }
 }
 
 function configuraClick(e){
     var posX = e.offsetX;
     var posY = e.offsetY;
-    console.log(posX,posY)
-    if(posX > 550){
-        //caso seja em controles
-        if(posY > 390 && posY < 450){
+    desenhaTelaConfiguracoes();
+    
+    if(posX > 550 && posX < 950){
+        if(posY > 390 && posY < 450){ // Configura Comando (teclado mouse)
             if(posX < 750){
-                desenhaComandos(mouse);
+                comando = mouse;
             }
-            if(posX > 750 && posX < 1000){
-                desenhaComandos(teclado);
+            else{
+                comando = teclado;
             }
-            
+            desenhaComandos(comando);
+        }else if(posY > 300-60  && posY < 300){ //Configura numero de gols
+            if(posX < 550+80){
+                maxGols = 1;                
+            }
+            else if(posX > 550+80 && posX < 550+160){
+                maxGols = 2;                
+            }
+            else if(posX > 550+160 && posX < 550+240){
+                maxGols = 3;                
+            }
+            else if(posX > 550+240 && posX < 550+320){
+                maxGols = 4;                
+            }
+            else if(posX > 550+320){
+                maxGols = 5;
+            }
+            desenhaGols(maxGols);
         }
 
+        else if(posY > 160-60  && posY < 160){
+            if(posX < 550+133){
+                dificuldade = facil;                
+            }
+            else if(posX > 550+133 && posX < 550+266){
+                dificuldade = medio;             
+            }
+            else if(posX > 550+266){
+                dificuldade = dificil;
+            }
+            desenhaDificuldade(dificuldade)
+        }
     }
-
-
 }
 
 function configura(){
