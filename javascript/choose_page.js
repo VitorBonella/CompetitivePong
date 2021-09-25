@@ -26,22 +26,35 @@ let qtdTimesEscolhidos = 0;
 let escolheuSingleplayer = false;
 let escolheuMultiplayer = false;
 
+/*
+Funcao que mostra a mensagem de escolha do time no amistoso
+*/
 function mostraEscolhaSingleplayer(){
     caixaCabecalho.style.display = "none";
     caixaEscolhaSingleplayer.style.display = "flex"
 }
 
+/*
+Funcao que mostra a mensagem de escolha dos times no multiplayer
+*/
 function mostraEscolhaMultiplayer(){
     caixaCabecalho.style.display = "none";
     caixaEscolhaMultiplayer.style.display = "flex";
 }
 
+/*
+Funcao que desenha o background de um logo
+*/
 function desenhaFundoLogo(x,y,largura = 80, altura = 80){
     screenContext.fillStyle = "rgba(255,255,255,0.35)";
     screenContext.fillRect(x, y, largura, altura);
     screenContext.strokeRect(x, y, largura, altura)
 }
 
+/*
+Funcao que desenha cada logo no tabuleiro
+Cada time possui um logo diferente
+*/
 function desenhaLogos(){
     let x = 100;
     let y = 25;
@@ -114,6 +127,9 @@ function desenhaLogos(){
     logos.push(logo16);
 }
 
+/*
+Funcao que determina em qual botao o usuario clicou (dentro da tela de selecao de times)
+*/
 function botaoClicado(pos){
     for(let i = 0; i < logos.length; i++){
         if(pos.x >= logos[i].coordenada.x && pos.x <= logos[i].coordenada.x + 70){
@@ -125,6 +141,10 @@ function botaoClicado(pos){
     return -1;
 }
 
+/*
+Funcao que reseta a tela de selecao de times apos a(s) escolha(s)
+Quando a tela de selecao for chamada novamente, tudo estara pronto
+*/
 function resetaTelaSelecao(){
     screen.removeEventListener("click", handleClickSelecao);
 
@@ -145,6 +165,9 @@ function resetaTelaSelecao(){
     mostraPlacar();
 }
 
+/*
+Funcao que processa a escolha dos times (lida com o click nos logos)
+*/
 function handleClickSelecao(e){
     pos = new Coordenada(e.offsetX, e.offsetY);
 
@@ -166,8 +189,21 @@ function handleClickSelecao(e){
     }
 }
 
+/*
+Mostra informacao ao usuario do motivo pelo qual foram escolhidos os 16 times (libertadores 2021)
+*/
+function mostraMsgEscolhaTimes(){
+    caixaInformacoes.children[0].style.display = "none";
+    caixaInformacoes.children[1].style.display = "initial";
+    caixaInformacoes.children[2].style.display = "none";
+}
+
+/*
+Desenha o tabuleiro da tela de selecao como um todo
+*/
 function desenhaTelaSelecao(modalidade){
     LimpaTela();
+    mostraMsgEscolhaTimes();
     atualizarPlanoDeFundo('url("images/bg/bgchoose.jpg")');
 
     desenhaLogos();

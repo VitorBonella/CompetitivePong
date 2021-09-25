@@ -13,26 +13,31 @@
     </head>
     
     <body>
+
         <div id="caixaLateral">&nbsp;</div>
         <div id="caixaPrincipal">
-            <div id="caixaCabecalho">
-                <h1 id="nomeJogo">PONG</h1>
-            </div>
-    
-            <div id="caixaPlacar">
-                <div id="logoTime1">&nbsp;</div>
-                <div id="numGolsTime1">&nbsp;</div>
-                <div id="iconeX">&nbsp;</div>
-                <div id="numGolsTime2">&nbsp;</div>
-                <div id="logoTime2">&nbsp;</div>
-            </div>
-    
-            <div id="caixaEscolhaSingleplayer">
-                <h2 id="escolha">Escolha seu time</h2>
-            </div>
-    
-            <div id="caixaEscolhaMultiplayer">
-                <h2 id="escolha">Escolha o time 1</h2>
+            <div id="caixaSuperior">
+                <div id="caixaBotaoHome"><i class="fas fa-home" id="botaoHome"></i></div>
+
+                <div id="caixaCabecalho">
+                    <h1 id="nomeJogo">PONG</h1>
+                </div>
+        
+                <div id="caixaPlacar">
+                    <div id="logoTime1">&nbsp;</div>
+                    <div id="numGolsTime1">&nbsp;</div>
+                    <div id="iconeX">&nbsp;</div>
+                    <div id="numGolsTime2">&nbsp;</div>
+                    <div id="logoTime2">&nbsp;</div>
+                </div>
+        
+                <div id="caixaEscolhaSingleplayer">
+                    <h2 id="escolha">Escolha seu time</h2>
+                </div>
+        
+                <div id="caixaEscolhaMultiplayer">
+                    <h2 id="escolha">Escolha o time 1</h2>
+                </div>
             </div>
     
             <div id="caixaJogo">
@@ -40,11 +45,24 @@
                     <canvas id="screen" width="1000" height="500"></canvas>
                 </div>
             </div>
+
+            <div id="caixaInformacoes">
+                <div id="msgMenu">
+                    <h2>Bem vindo ao Jogo do Pong</h2>
+                    <h3>Escolha uma opção acima para começar a jogar!</h3>
+                </div>
+                <div id="msgEscolhaTimes">
+                    <h3>As escolhas foram oferecidas com base nos 16 times das oitavas de final da Copa Libertadores 2021!</p>
+                </div>
+                <div id="msgJogo">
+                    <h3>Clique com o mouse para iniciar o jogo. Boa sorte!</h3>
+                </div>
+            </div>
     
             <footer id="caixaRodape">
                 <p id="creditos">Game developed by: Danilo Lima, Enzo Cussuol and Vitor Bonella. MIT License &copy;.</p>
-                <audio preload="auto" autoplay>
-                    <source src="sounds/audio-gol.mp3" type="audio/mpeg">
+                <audio preload="metadata" controls> 
+                    <source src="/sounds/som-torcida.mp3" type="audio/mpeg">
                 </audio>
             </footer>
         </div>
@@ -54,8 +72,10 @@
     <script src="javascript/canvas.js"></script>
     <script src="javascript/config.js"></script>
     <script src="javascript/menu.js"></script>
+    <script src="javascript/config_page.js"></script>
     <script src="javascript/main_page.js"></script>
     <script src="javascript/credit_page.js"></script>
     <script src="javascript/game_page.js"></script>
     <script src="javascript/choose_page.js"></script>
+    <script src="https://kit.fontawesome.com/f7c5453934.js" crossorigin="anonymous"></script>
 </html>

@@ -21,3 +21,11 @@ function LimpaTela(){
 
     screenContext.clearRect(0, 0, screen.width, screen.height);
 }
+
+caixaBotaoHome.addEventListener('click', function(){
+    LimpaTela();
+    mostraPong();
+    mostraMsgMenu();
+    desenhaMenu();
+    terminaJogo();
+});

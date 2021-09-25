@@ -1,5 +1,5 @@
 let larguraMenu = 320;
-let alturaMenu = 380;
+let alturaMenu = 285;
 
 function desenharBaseMenu() {
     screenContext.fillStyle = "rgba(255,255,255,0.25)";
@@ -28,17 +28,10 @@ function desenharItensMenu() {
     };
   
     img3 = new Image();
-    img3.src = "images/menu/competicao0.png";
+    img3.src = "images/menu/configuracoes0.png";
     img3.onload = function () {
       screenContext.drawImage(img3, x, y+200);
-    };
-  
-    img4 = new Image();
-    img4.src = "images/menu/instrucoes0.png";
-    img4.onload = function () {
-      screenContext.drawImage(img4, x, y+300);
-    };
-    
+    };    
 }
 
 /*
@@ -65,26 +58,26 @@ function destacaItem(indice) {
             };
             break;
         case 2:
-            img.src = "images/menu/competicao1.png";
+            img.src = "images/menu/configuracoes1.png";
             img.onload = function () {
               screenContext.drawImage(img, x, y+200);
-            };
-            break;
-        case 3:
-            img.src = "images/menu/instrucoes1.png";
-            img.onload = function () {
-              screenContext.drawImage(img, x, y+300);
             };
             break;
     }
     
 }
 
+function mostraMsgMenu(){
+    caixaInformacoes.children[0].style.display = "initial";
+    caixaInformacoes.children[1].style.display = "none";
+    caixaInformacoes.children[2].style.display = "none";
+}
+
 /*
 Funçao que define as ações quando um botão é clicado
 */
 function selecionaItem(indice) {
-    
+    console.log(indice)
     switch (indice) {
         case 0:
             desenhaTelaSelecao(0);
@@ -93,7 +86,7 @@ function selecionaItem(indice) {
             desenhaTelaSelecao(1);
             break;
         case 2:
-            mostraPlacar();
+            desenhaTelaConfiguracoes();
             break;
         case 3:
             // ShowCredits();

@@ -7,16 +7,25 @@ const ballBaseSpeed = 5 //define a velocidade base da bola
 const movelen = 50 //quantidade de movimento em um click
 const enterlength = 50 //quantidade que o jogador é capaz de ultrapassar o campo
 
+const maxGols = 3; //quantidade de gols para terminar o jogo
+
+const teclado = 1;
+const mouse = 2;
+
+let comando = mouse;
+
 const p1_posX = 40 //define a posição do player 1 em relaçao as laterais
 const p2_posX = largura - 40 //define a posicao do player 2 em relacao as laterais
 const p_posY = altura/2 //define a altura inicial dos 2 players
 
 //dificuldades do jogo
-const muitofacil = 0.7
+const muitofacil = 0.8
 const facil = 0.6
 const medio = 0.3
 const dificil = 0.1
 const impossivel = 0.01
+
+let dificuldade = facil
 
 //Taxa de atualizaçao
 const framehate = 50

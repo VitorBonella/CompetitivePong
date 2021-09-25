@@ -4,7 +4,6 @@ const logoTime2Placar = document.getElementById("logoTime2");
 const numGolsTime2Placar = document.getElementById("numGolsTime2");
 let gameLoopInterval; //variavel do loop principal do jogo
 
-
 class Retangulo{
     constructor(w,h){
         this.posicao = new Coordenada;
@@ -104,25 +103,24 @@ function defineJogadores(time1, time2 = null){
     }
 }
 
+function mostraMsgJogo(){
+    caixaInformacoes.children[0].style.display = "none";
+    caixaInformacoes.children[1].style.display = "none";
+    caixaInformacoes.children[2].style.display = "initial";
+}
+
 /* 
 Funcao responsavel por desenhar os elementos no jogo
 tais como o plano de fundo , a bola e os jogadores
 */
 function desenhaElementos(){
     LimpaTela();
+    mostraMsgJogo();
     atualizarPlanoDeFundo("url('images/in-game/campo.jpg')");
 
     ball.desenha();
     jogador1.desenha(cor = Cores["branco"], pattern = jogador1.logo);
     jogador2.desenha(cor = Cores["branco"], pattern = jogador2.logo);
-}
-
-
-function houveColisaoEsq(jogador, bola){
-
-}
-function houveColisaoDir(jogador, bola){
-
 }
 
 /*
@@ -212,13 +210,13 @@ volta para o menu
 function terminaJogo(){
     
     reseta(); //reseta objetos
-    console.log("GANHOU");
 
     clearInterval(gameLoopInterval); //para loop do jogo
     
     LimpaTela(); //limpa tela do jogo
     mostraPong(); //retorna titulo do jogo
     desenhaMenu(); //volta ao menu
+    mostraMsgMenu();
 }
 
 /*
@@ -238,15 +236,12 @@ function iniciaJogo(){
 
 let multiplayer = false; //define se o jogo é multiplayer ou singleplayer
 
-//seletor de dificuldade
-const dificuldade = muitofacil
-
 /*
 Funcao principal do jogo para atualizar a tela e 
 controlar a logica , em 60 fps
 */
 function atualiza(){
-    
+
     //movimenta bola
     ball.posicao.x += ball.velocidade.x;
     ball.posicao.y += ball.velocidade.y;
@@ -263,8 +258,7 @@ function atualiza(){
         numGolsTime1Placar.style.backgroundImage = numerosPlacarEsq[jogador1.pontos];
         numGolsTime2Placar.style.backgroundImage = numerosPlacarDir[jogador2.pontos];
 
-        const maxGols = 5; //quantidade de gols para terminar o jogo
-
+        
         //caso o jogo termine
         if(jogador1.pontos === maxGols || jogador2.pontos === maxGols){
             terminaJogo();
@@ -317,7 +311,7 @@ function atualiza(){
 Ativa os os botoes para 1 jogador
 W e S ou | UpArrow ou DownArrow
 */
-function ativar1Player(){
+function ativar1PlayerTeclado(){
     document.onkeydown = function(e) {
         e.preventDefault(); //tira o scroll
         switch (e.keyCode) {
@@ -348,11 +342,21 @@ function ativar1Player(){
 }
 
 /*
+Ativa para o player 1 seguir o mouse
+*/
+function ativar1PlayerMouse(){
+    screen.addEventListener('mousemove', event => {
+        const escala = event.offsetY / event.target.getBoundingClientRect().height;
+        jogador1.posicao.y = screen.height * escala;
+    });
+}
+
+/*
 Ativa os os botoes para 2 jogadores
 Player1 -> W e S  
 Player2 -> UpArrow e DownArrow
 */
-function ativar2Player(){
+function ativar2PlayerTeclado(){
     
     document.onkeydown = document.onkeyup = function(e) {
         e.preventDefault(); 
@@ -407,7 +411,14 @@ function inicializaJogo(time1){
     defineJogadores(time1);
     clickHandle();
     multiplayer = false;
-    ativar1Player();
+
+    if(comando == teclado){
+        ativar1PlayerTeclado();
+    }
+    else if(comando == mouse){
+        ativar1PlayerMouse();
+    }
+    
 
     //loop principal do jogo
     gameLoopInterval = setInterval(function() {
@@ -429,16 +440,10 @@ function inicializaJogoMultiplayer(time1 , time2){
     defineJogadores(time1,time2);
     clickHandle();
     multiplayer = true;
-    ativar2Player();
+    ativar2PlayerTeclado();
 
     //loop principal
     gameLoopInterval = setInterval(function() {
         atualiza()
       }, 1000/framehate);
-}
-
-function inicializaJogoCompeticao(time1){
-    console.log("INICIALIZA JOGO COMPETICAO:");
-
-
 }
